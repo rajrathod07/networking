@@ -1,6 +1,6 @@
 # NetFlow — Networking Fundamentals 🌐
 
-**🔴 Live Site:** [https://rajrathod07.github.io/networking/](https://rajrathod07.github.io/networking/)
+**🔴 Live Site:** [https://rajrathod07.github.io/netflow/](https://rajrathod07.github.io/netflow/)
 
 An interactive, fluid web guide designed to break down the core networking concepts. Built with a modern glassmorphism interface, this project serves as a dynamic study reference for foundational networking rules, topologies, and protocols.
 
