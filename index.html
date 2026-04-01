@@ -4,498 +4,242 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Networking Guide</title>
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
-    </script>
-    <style>
-        /* CSS Variables for Theming */
-        :root {
-            --bg-color: #f9fafb;
-            --text-color: #1f2937;
-            --text-muted: #6b7280;
-            --card-bg: #ffffff;
-            --border-color: #e5e7eb;
-            --accent-color: #3b82f6;
-            --accent-hover: #2563eb;
-            --callout-blue: #eff6ff;
-            --callout-yellow: #fefce8;
-            --callout-teal: #f0fdf4;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --transition: all 0.3s ease;
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #111827;
-            --text-color: #f3f4f6;
-            --text-muted: #9ca3af;
-            --card-bg: #1f2937;
-            --border-color: #374151;
-            --callout-blue: #1e3a8a;
-            --callout-yellow: #713f12;
-            --callout-teal: #064e3b;
-        }
-
-        /* Reset & Base Styles */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: var(--transition);
-        }
-
-        /* Layout */
-        .container {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            max-width: 1200px;
-            margin: 0 auto;
-            min-height: 100vh;
-        }
-
-        /* Sidebar Navigation */
-        aside {
-            padding: 2rem 1rem;
-            border-right: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow-y: auto;
-        }
-
-        aside h3 {
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-
-        aside a {
-            display: block;
-            padding: 0.5rem;
-            color: var(--text-color);
-            text-decoration: none;
-            border-radius: 0.375rem;
-            margin-bottom: 0.25rem;
-            transition: var(--transition);
-        }
-
-        aside a:hover {
-            background-color: var(--card-bg);
-            color: var(--accent-color);
-        }
-
-        /* Main Content */
-        main {
-            padding: 3rem;
-            max-width: 800px;
-        }
-
-        /* Header & Hero */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        h1 { font-size: 2.5rem; font-weight: 800; }
-        h2 { font-size: 1.8rem; margin: 2.5rem 0 1rem; border-bottom: 2px solid var(--accent-color); display: inline-block; padding-bottom: 0.2rem;}
-        h3 { font-size: 1.3rem; margin: 1.5rem 0 0.75rem; }
-
-        /* Theme Toggle Button */
-        #theme-toggle {
-            background: var(--card-bg);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-        }
-
-        #theme-toggle:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-
-        /* Callouts */
-        .callout {
-            display: flex;
-            gap: 1rem;
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            margin: 1.5rem 0;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
-            align-items: flex-start;
-        }
-
-        .callout.blue { background-color: var(--callout-blue); }
-        .callout.yellow { background-color: var(--callout-yellow); }
-        .callout.teal { background-color: var(--callout-teal); }
-        
-        .callout .icon { font-size: 1.5rem; }
-
-        /* Cards/Grids for Lists */
-        .grid-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
-        }
-
-        /* Accordions for Details */
-        details {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            box-shadow: var(--shadow);
-        }
-
-        summary {
-            padding: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        summary::-webkit-details-marker { display: none; }
-        summary::after { content: '+'; font-size: 1.2rem; color: var(--accent-color); transition: var(--transition); }
-        details[open] summary::after { content: '-'; }
-        
-        .details-content {
-            padding: 0 1rem 1rem;
-            color: var(--text-muted);
-        }
-
-        /* Mermaid Wrapper */
-        .diagram-container {
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 0.75rem;
-            border: 1px solid var(--border-color);
-            margin: 1.5rem 0;
-            box-shadow: var(--shadow);
-            overflow-x: auto;
-            text-align: center;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container { grid-template-columns: 1fr; }
-            aside { display: none; } /* Hide sidebar on mobile for simplicity */
-            main { padding: 1.5rem; }
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div class="container">
-    <aside>
-        <h3>Table of Contents</h3>
+<div class="layout-container">
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-network-wired"></i> NetGuide
+        </div>
         <nav>
-            <a href="#basics">Networking Basics</a>
-            <a href="#devices">Devices in a Network</a>
-            <a href="#characteristics">Network Characteristics</a>
-            <a href="#diagrams">Interactive Diagrams</a>
-            <a href="#data-flow">Data Flow</a>
-            <a href="#protocols">Protocols</a>
+            <a href="#basics"><i class="fa-solid fa-book-open"></i> Basics</a>
+            <a href="#devices"><i class="fa-solid fa-server"></i> Devices</a>
+            <a href="#characteristics"><i class="fa-solid fa-chart-line"></i> Characteristics</a>
+            <a href="#data-flow"><i class="fa-solid fa-route"></i> Data Flow</a>
+            <a href="#protocols"><i class="fa-solid fa-shield-halved"></i> Protocols</a>
         </nav>
     </aside>
 
-    <main>
-        <header>
-            <div>
-                <h1 id="basics">#Networking</h1>
-                <p style="color: var(--text-muted);">Interactive reference guide</p>
-            </div>
-            <button id="theme-toggle">🌓 Toggle Theme</button>
+    <main class="content">
+        <header class="hero slide-up">
+            <h1 id="basics">Networking Architecture</h1>
+            <p>An interactive, animated reference guide to data communication.</p>
         </header>
 
-        <div class="callout blue">
-            <div class="icon">🌐</div>
-            <div>
+        <section class="callout callout-blue slide-up">
+            <i class="fa-solid fa-globe icon"></i>
+            <div class="callout-text">
                 <strong>Networking = connecting devices so they can share data.</strong>
             </div>
-        </div>
+        </section>
 
-        <div class="callout yellow">
-            <div class="icon">✅</div>
-            <div>
+        <section class="callout callout-yellow slide-up">
+            <i class="fa-solid fa-check-circle icon"></i>
+            <div class="callout-text">
                 <strong>Two must-remember words:</strong>
-                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <ul>
                     <li><strong>Node:</strong> Any device (phone, laptop, printer)</li>
                     <li><strong>Communication link:</strong> The path data uses (Wi‑Fi or cable)</li>
                 </ul>
             </div>
-        </div>
+        </section>
 
-        <section id="devices">
-            <h2>Devices in a network</h2>
+        <section id="devices" class="section-block slide-up">
+            <h2><i class="fa-solid fa-microchip"></i> Devices in a Network</h2>
             
-            <div class="callout teal">
-                <div class="icon">🧠</div>
-                <div>
+            <div class="callout callout-teal">
+                <i class="fa-solid fa-lightbulb icon"></i>
+                <div class="callout-text">
                     <strong>Quick trick:</strong> End devices <em>use</em> data • Intermediary devices <em>move</em> data.
                 </div>
             </div>
 
-            <h3>End devices (Use Data)</h3>
+            <h3>End Devices (Use Data)</h3>
             <div class="grid-cards">
-                <div class="card">💻 Desktop / Laptop</div>
-                <div class="card">📱 Mobile Phone</div>
-                <div class="card">📲 Tablet</div>
-                <div class="card">🖨️ Printer</div>
-                <div class="card">🗄️ Server</div>
+                <div class="card"><i class="fa-solid fa-desktop"></i> Desktop / Laptop</div>
+                <div class="card"><i class="fa-solid fa-mobile-screen"></i> Mobile Phone</div>
+                <div class="card"><i class="fa-solid fa-tablet-screen-button"></i> Tablet</div>
+                <div class="card"><i class="fa-solid fa-print"></i> Printer</div>
+                <div class="card"><i class="fa-solid fa-server"></i> Server</div>
             </div>
 
-            <h3>Intermediary devices (Move Data)</h3>
-            <p style="margin-bottom: 1rem; color: var(--text-muted);">These devices sit in the middle and help data reach the correct place.</p>
+            <h3 style="margin-top: 2rem;">Intermediary Devices (Move Data)</h3>
+            <p class="text-muted">These devices sit in the middle and route traffic to the correct destination.</p>
             
-            <details>
-                <summary>🔄 Switch (Inside LAN)</summary>
-                <div class="details-content">Connects many devices in the same local network and forwards data to the correct device.</div>
-            </details>
-            <details>
-                <summary>🔀 Router (Between networks)</summary>
-                <div class="details-content">Connects LAN ↔ internet and forwards data to the next network.</div>
-            </details>
-            <details>
-                <summary>📶 Wireless Router</summary>
-                <div class="details-content">Router + Wi‑Fi in one device.</div>
-            </details>
-            <details>
-                <summary>🔌 Modem</summary>
-                <div class="details-content">Connects your router to your ISP line (fiber/cable/DSL).</div>
-            </details>
-            <details>
-                <summary>🗼 Cell Tower</summary>
-                <div class="details-content">Connects your phone to the mobile network (4G/5G).</div>
-            </details>
+            <div class="accordion-group">
+                <details class="accordion">
+                    <summary><i class="fa-solid fa-shuffle"></i> Switch (Inside LAN)</summary>
+                    <div class="details-content">Connects many devices in the same local network and forwards data to the correct device based on MAC address.</div>
+                </details>
+                <details class="accordion">
+                    <summary><i class="fa-solid fa-route"></i> Router (Between networks)</summary>
+                    <div class="details-content">Connects LAN ↔ Internet and forwards data to the next network based on IP address.</div>
+                </details>
+                <details class="accordion">
+                    <summary><i class="fa-solid fa-wifi"></i> Wireless Router</summary>
+                    <div class="details-content">Acts as a router, switch, and wireless access point in one device.</div>
+                </details>
+                <details class="accordion">
+                    <summary><i class="fa-solid fa-plug"></i> Modem</summary>
+                    <div class="details-content">Modulates and demodulates signals; connects your router to your ISP line (fiber/cable/DSL).</div>
+                </details>
+            </div>
         </section>
 
-        <section id="characteristics">
-            <h2>Network Characteristics</h2>
-            <p style="margin-bottom: 1rem;">These are the qualities of a <strong>good network</strong>.</p>
+        <section id="characteristics" class="section-block slide-up">
+            <h2><i class="fa-solid fa-sliders"></i> Network Characteristics</h2>
+            <p class="text-muted">The core qualities of a reliable and scalable network infrastructure.</p>
 
-            <details>
-                <summary>1️⃣ Fault Tolerance</summary>
-                <div class="details-content">
-                    <strong>Meaning:</strong> The network keeps working even if one part fails.<br>
-                    <strong>Example:</strong> If one road is blocked, you take another road and still reach home.
+            <div class="grid-cards-large">
+                <div class="card feature-card">
+                    <i class="fa-solid fa-heart-pulse accent-icon"></i>
+                    <h4>Fault Tolerance</h4>
+                    <p>The network keeps working even if one part fails. If a link goes down, traffic is rerouted.</p>
                 </div>
-            </details>
-            <details>
-                <summary>2️⃣ Scalability</summary>
-                <div class="details-content">
-                    <strong>Meaning:</strong> The network can handle more users/devices later and still works well.<br>
-                    <strong>Example:</strong> Today 10 users, tomorrow 100 users — it should still be fast.
+                <div class="card feature-card">
+                    <i class="fa-solid fa-up-right-and-down-left-from-center accent-icon"></i>
+                    <h4>Scalability</h4>
+                    <p>Can handle more users or devices being added without experiencing a noticeable drop in performance.</p>
                 </div>
-            </details>
-            <details>
-                <summary>3️⃣ Quality of Service (QoS)</summary>
-                <div class="details-content">
-                    <strong>Meaning:</strong> The network can give priority to important traffic so it has less delay.<br>
-                    <strong>Example:</strong> Giving higher priority to a VoIP call over email sending so the voice remains clear.
+                <div class="card feature-card">
+                    <i class="fa-solid fa-list-ol accent-icon"></i>
+                    <h4>Quality of Service (QoS)</h4>
+                    <p>Prioritizes time-sensitive traffic (like VoIP or video calls) over less urgent traffic (like emails).</p>
                 </div>
-            </details>
-            <details>
-                <summary>4️⃣ Security</summary>
-                <div class="details-content">
-                    <strong>Meaning:</strong> Prevents unauthorized access and misuse. Governed by the <strong>CIA</strong> Triad:<br>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                        <li><strong>Confidentiality:</strong> Only allowed people can see the data.</li>
-                        <li><strong>Integrity:</strong> Data is not changed wrongly.</li>
-                        <li><strong>Availability:</strong> Data/service is available when needed.</li>
-                    </ul>
-                </div>
-            </details>
-        </section>
-
-        <section id="diagrams">
-            <h2>Network Diagrams</h2>
-            <p style="color: var(--text-muted);">These diagrams are now rendered using interactive SVGs.</p>
-
-            <h3>1. Data Communication</h3>
-            <div class="diagram-container">
-                <div class="mermaid">
-                flowchart LR
-                    A["🧑 Sender\n(Node)"] -->|"📦 data"| B["📡 Link\n(Wi‑Fi / Cable)"] -->|"📦 data"| C["🧑 Receiver\n(Node)"]
-                </div>
-            </div>
-
-            <h3>2. Home Internet (Simple)</h3>
-            <div class="diagram-container">
-                <div class="mermaid">
-                flowchart LR
-                    D1["📱 Phone\n(End device)"] -->|"📶 Wi‑Fi"| R1["📶 Wireless Router\n(Intermediary)"]
-                    D2["💻 Laptop\n(End device)"] -->|"📶 Wi‑Fi"| R1
-                    R1 -->|"🔌 Cable"| M1["🔌 Modem\n(Intermediary)"]
-                    M1 --> NET["☁️ Internet"]
-                    NET --> SV["🗄️ Server\n(End device)"]
-                </div>
-            </div>
-
-            <h3>3. QoS (Priority)</h3>
-            <div class="diagram-container">
-                <div class="mermaid">
-                flowchart LR
-                    CALL["📞 VoIP Call\n(High priority)"] --> Q["📶 Router\n(QoS)"]
-                    EMAIL["📧 Email\n(Low priority)"] --> Q
-                    Q --> NET2["☁️ Internet"]
+                <div class="card feature-card">
+                    <i class="fa-solid fa-shield-halved accent-icon"></i>
+                    <h4>Security (CIA Triad)</h4>
+                    <p><strong>Confidentiality</strong> (encryption), <strong>Integrity</strong> (hashing), and <strong>Availability</strong> (uptime).</p>
                 </div>
             </div>
         </section>
 
-        <section id="data-flow">
-            <h2>Data Flow</h2>
-            <div class="callout yellow">
-                <div class="icon">🚦</div>
-                <div><strong>Data flow</strong> = direction of communication between 2 devices.</div>
-            </div>
+        <section id="data-flow" class="section-block slide-up">
+            <h2><i class="fa-solid fa-right-left"></i> Data Flow Animations</h2>
+            <p class="text-muted">Direction of communication between two nodes.</p>
 
-            <div class="grid-cards">
-                <div class="card">
-                    <strong>➡️ Simplex</strong><br>
-                    <span style="color: var(--text-muted); font-size: 0.9em;">One-way only.</span><br>
-                    <em>Ex: Keyboard → CPU</em>
-                </div>
-                <div class="card">
-                    <strong>↔️ Half‑duplex</strong><br>
-                    <span style="color: var(--text-muted); font-size: 0.9em;">Two-way, but one at a time.</span><br>
-                    <em>Ex: Walkie‑talkie</em>
-                </div>
-                <div class="card">
-                    <strong>🔁 Full‑duplex</strong><br>
-                    <span style="color: var(--text-muted); font-size: 0.9em;">Two-way, at the same time.</span><br>
-                    <em>Ex: Phone call</em>
+            <div class="diagram-box">
+                <h4>Simplex (One-way only)</h4>
+                <p class="text-muted small">Example: Keyboard sending data to a CPU.</p>
+                <div class="animated-diagram">
+                    <div class="node"><i class="fa-solid fa-keyboard"></i> Sender</div>
+                    <div class="connection-line">
+                        <div class="packet simplex-packet"></div>
+                    </div>
+                    <div class="node"><i class="fa-solid fa-microchip"></i> Receiver</div>
                 </div>
             </div>
 
-            <div class="diagram-container">
-                <div class="mermaid">
-                flowchart TB
-                    S1["⌨️ Keyboard"] -->|"data"| S2["🖥️ CPU"]
-                    H1["📻 Walkie‑talkie A"] -->|"talk (one at a time)"| H2["📻 Walkie‑talkie B"]
-                    H2 -.->|"reply (one at a time)"| H1
-                    F1["📱 Phone A"] <--> |"talk + listen (same time)"| F2["📱 Phone B"]
+            <div class="diagram-box">
+                <h4>Half-Duplex (Two-way, but one at a time)</h4>
+                <p class="text-muted small">Example: Walkie-talkies. You must wait for the channel to be clear.</p>
+                <div class="animated-diagram">
+                    <div class="node"><i class="fa-solid fa-walkie-talkie"></i> Device A</div>
+                    <div class="connection-line dashed">
+                        <div class="packet half-duplex-packet"></div>
+                    </div>
+                    <div class="node"><i class="fa-solid fa-walkie-talkie"></i> Device B</div>
+                </div>
+            </div>
+
+            <div class="diagram-box">
+                <h4>Full-Duplex (Two-way, simultaneously)</h4>
+                <p class="text-muted small">Example: Telephone call. Both parties can send and receive at once.</p>
+                <div class="animated-diagram">
+                    <div class="node"><i class="fa-solid fa-phone"></i> Phone A</div>
+                    <div class="connection-line double">
+                        <div class="packet full-duplex-packet-1"></div>
+                        <div class="packet full-duplex-packet-2"></div>
+                    </div>
+                    <div class="node"><i class="fa-solid fa-phone"></i> Phone B</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="protocols" class="section-block slide-up">
+            <h2><i class="fa-solid fa-satellite-dish"></i> Message Delivery Options</h2>
+            
+            <div class="diagram-box delivery-diagrams">
+                <div class="delivery-row">
+                    <div class="delivery-info">
+                        <h4>Unicast</h4>
+                        <p class="text-muted small">1 Sender to 1 Specific Receiver</p>
+                    </div>
+                    <div class="animated-diagram multi-diagram">
+                        <div class="node center-node"><i class="fa-solid fa-server"></i></div>
+                        <div class="network-lines unicast-lines">
+                            <div class="line active"><div class="packet go-right"></div></div>
+                            <div class="line inactive"></div>
+                            <div class="line inactive"></div>
+                        </div>
+                        <div class="receivers">
+                            <div class="node target"><i class="fa-solid fa-desktop"></i></div>
+                            <div class="node dim"><i class="fa-solid fa-desktop"></i></div>
+                            <div class="node dim"><i class="fa-solid fa-desktop"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="delivery-row">
+                    <div class="delivery-info">
+                        <h4>Multicast</h4>
+                        <p class="text-muted small">1 Sender to a Selected Group</p>
+                    </div>
+                    <div class="animated-diagram multi-diagram">
+                        <div class="node center-node"><i class="fa-solid fa-server"></i></div>
+                        <div class="network-lines multicast-lines">
+                            <div class="line active"><div class="packet go-right"></div></div>
+                            <div class="line inactive"></div>
+                            <div class="line active"><div class="packet go-right"></div></div>
+                        </div>
+                        <div class="receivers">
+                            <div class="node target"><i class="fa-solid fa-desktop"></i></div>
+                            <div class="node dim"><i class="fa-solid fa-desktop"></i></div>
+                            <div class="node target"><i class="fa-solid fa-desktop"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="delivery-row">
+                    <div class="delivery-info">
+                        <h4>Broadcast</h4>
+                        <p class="text-muted small">1 Sender to EVERYONE on the network</p>
+                    </div>
+                    <div class="animated-diagram multi-diagram">
+                        <div class="node center-node"><i class="fa-solid fa-server"></i></div>
+                        <div class="network-lines broadcast-lines">
+                            <div class="line active"><div class="packet go-right"></div></div>
+                            <div class="line active"><div class="packet go-right"></div></div>
+                            <div class="line active"><div class="packet go-right"></div></div>
+                        </div>
+                        <div class="receivers">
+                            <div class="node target"><i class="fa-solid fa-desktop"></i></div>
+                            <div class="node target"><i class="fa-solid fa-desktop"></i></div>
+                            <div class="node target"><i class="fa-solid fa-desktop"></i></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="protocols">
-            <h2>Protocols</h2>
-            <div class="callout blue">
-                <div class="icon">📜</div>
-                <div><strong>Protocol</strong> = the rules that control communication. It decides <strong>What</strong>, <strong>How</strong>, and <strong>When</strong> data is communicated.</div>
-            </div>
-
-            <h3>Elements of Protocols</h3>
-            <details>
-                <summary>📝 Message Encoding</summary>
-                <div class="details-content">How data is changed into signals (e.g., text/voice/video converted to bits).</div>
-            </details>
-            <details>
-                <summary>📦 Message Format & Encapsulation</summary>
-                <div class="details-content">How data is packed. Data is wrapped with extra info (like “from”, “to”, “type”).</div>
-            </details>
-            <details>
-                <summary>📏 Message Size</summary>
-                <div class="details-content">Breaking big data into smaller parts (chunks/packets).</div>
-            </details>
-            <details>
-                <summary>⏱️ Message Timing</summary>
-                <div class="details-content">Controls the speed, waiting period, and order of delivery.</div>
-            </details>
-            <details>
-                <summary>🎯 Message Delivery Options</summary>
-                <div class="details-content">
-                    <ul>
-                        <li><strong>Unicast:</strong> 1 sender → 1 receiver</li>
-                        <li><strong>Multicast:</strong> 1 sender → selected group</li>
-                        <li><strong>Broadcast:</strong> 1 sender → everyone in the network</li>
-                    </ul>
-                </div>
-            </details>
-
-            <div class="diagram-container">
-                <div class="mermaid">
-                flowchart LR
-                    U1["🧑 Sender"] -->|"Unicast"| U2["🧑 One receiver"]
-
-                    M1["🧑 Sender"] -->|"Multicast"| M2["👥 Group member 1"]
-                    M1 --> M3["👥 Group member 2"]
-                    M1 --> M4["👥 Group member 3"]
-
-                    B1["🧑 Sender"] -->|"Broadcast"| B2["👤 Device 1"]
-                    B1 --> B3["👤 Device 2"]
-                    B1 --> B4["👤 Device 3"]
-                    B1 --> B5["👤 Device 4"]
-                </div>
-            </div>
-        </section>
     </main>
 </div>
 
 <script>
-    // Dark/Light Mode Toggle Logic
-    const toggleButton = document.getElementById('theme-toggle');
-    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
-
-    if (currentTheme) {
-        document.documentElement.setAttribute('data-theme', currentTheme);
-    }
-
-    toggleButton.addEventListener('click', () => {
-        let theme = document.documentElement.getAttribute('data-theme');
-        if (theme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
-        }
-    });
-
-    // Smooth Scrolling for Sidebar Links
-    document.querySelectorAll('aside a').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
+    document.addEventListener("DOMContentLoaded", () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
             });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.slide-up').forEach((el) => {
+            observer.observe(el);
         });
     });
 </script>
