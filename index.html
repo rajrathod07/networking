@@ -44,7 +44,6 @@
 
     <div class="pw">
 
-        <!-- LEFT SIDEBAR — built by JS -->
         <aside class="ls" id="leftSidebar">
             <div class="sb-lbl">Chapters</div>
             <nav id="navTree"></nav>
@@ -56,12 +55,10 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
         <main class="mc" id="mc">
             <div class="pi">
                 <h1>Learn <em>Networking</em><br>Fundamentals</h1>
-                <p>A fluid, interactive guide to how devices connect and share data. Hover elements to explore — no
-                    clicking needed.</p>
+                <p>A fluid, interactive guide to how devices connect and share data. Hover elements to explore — no clicking needed.</p>
             </div>
             <div class="no-res" id="noRes">
                 <div class="nr-glyph">◌</div>
@@ -69,7 +66,6 @@
                 <p>Try "router", "protocol", or "duplex"</p>
             </div>
 
-            <!-- §1 BASICS -->
             <section id="basics" class="chapter gc" data-index="0" data-category="Foundations">
                 <div class="ch">
                     <div class="chl">
@@ -79,30 +75,42 @@
                 </div>
                 <div class="co cb">
                     <div class="co-ico">⬡</div>
-                    <div class="co-bdy"><strong>Networking = connecting devices to share data.</strong>
-                        <p>Think of roads between houses — data travels the road instead of people.</p>
+                    <div class="co-bdy"><strong>Networking is simply devices talking to each other to share data.</strong>
+                        <p><strong>The Highway Analogy:</strong> Think of a city's transportation system. Houses are the computers, roads are the physical cables or Wi-Fi waves, and the cars driving between them are the <mark>data packets</mark> being shared.</p>
                     </div>
                 </div>
-                <div class="co ca mt-s">
-                    <div class="co-ico">◇</div>
-                    <div class="co-bdy"><strong>Two terms to remember:</strong>
-                        <ul class="cl mt-s">
-                            <li><strong>Node:</strong> Any device on the network — phone, laptop, printer, server.</li>
-                            <li><strong>Communication Link:</strong> The path data travels — Wi-Fi waves or physical
-                                cable.</li>
-                        </ul>
+                <div class="g2 mt-m">
+                    <div class="pnl">
+                        <h3><span class="ai">💻</span> Node</h3>
+                        <p>Any physical device connected to the network. If it can send or receive data, it is a node.</p>
+                        <p class="soft" style="font-size:.81rem;margin-top:10px"><strong>Examples:</strong> Your phone, a laptop, a smart fridge, or a printer.</p>
+                    </div>
+                    <div class="pnl">
+                        <h3><span class="ai">〰️</span> Communication Link</h3>
+                        <p>The actual physical or invisible pathway the data travels across to get from one Node to another.</p>
+                        <p class="soft" style="font-size:.81rem;margin-top:10px"><strong>Examples:</strong> Copper Ethernet cables, Fiber Optic glass cables, or Wi-Fi radio waves.</p>
                     </div>
                 </div>
-                <div class="qw">
-                    <div class="qt"><span>⚡</span> Quick Check</div>
+                
+                <div class="pnl mt-m">
+                    <h3><span class="ai">🤝</span> Client-Server Model</h3>
+                    <p class="soft">This is the foundational relationship of the modern internet. It's a simple request-and-reply system.</p>
+                    <ul class="cl mt-s">
+                        <li><strong>Client:</strong> The device asking for information <em>(e.g., You opening the Instagram app on your phone)</em>.</li>
+                        <li><strong>Server:</strong> A powerful, always-on computer that holds the information and serves it back to the client <em>(e.g., Meta's massive data centers sending the photos to your screen)</em>.</li>
+                    </ul>
+                </div>
+
+                <div class="qw mt-m">
+                    <div class="qt"><span>⚡</span> Quick Check — Basics</div>
                     <div class="qpan">
                         <div class="qi">
-                            <div class="qq">What term describes any device connected to a network?</div>
+                            <div class="qq">What term describes any physical device (like a smartphone or printer) connected to a network?</div>
                             <div class="qo-wrap">
                                 <div class="qo" data-c="0">Communication Link</div>
                                 <div class="qo" data-c="1">Node</div>
                                 <div class="qo" data-c="0">Protocol</div>
-                                <div class="qo" data-c="0">Packet</div>
+                                <div class="qo" data-c="0">Server</div>
                             </div>
                             <div class="qfb"></div>
                         </div>
@@ -111,110 +119,149 @@
                 <div class="cnav" data-idx="0"></div>
             </section>
 
-            <!-- §2 DEVICES -->
             <section id="devices" class="chapter gc" data-index="1" data-category="Foundations">
                 <div class="ch">
                     <div class="chl">
                         <div class="chn">02</div>
-                        <h2>Devices in a Network</h2>
+                        <h2>Network Devices</h2>
                     </div><button class="db" data-idx="1"><span class="dc">○</span> Mark done</button>
                 </div>
-                <p class="soft"><strong>Quick rule:</strong> End devices <em>use</em> data. Intermediary devices
-                    <em>move</em> data.</p>
+                <p class="soft"><strong>The Golden Rule:</strong> End devices <em>consume or create</em> data. Intermediary devices <em>transport</em> data safely to its destination.</p>
                 <div class="g2 mt-m">
                     <div class="pnl">
-                        <h3><span class="ai">◫</span> End Devices</h3>
-                        <p class="soft" style="font-size:.81rem;margin-bottom:10px">Where data starts and stops.</p>
-                        <ul class="cl">
-                            <li>Desktop / Laptop</li>
-                            <li>Mobile Phone / Tablet</li>
-                            <li>Printer / Smart TV</li>
-                            <li>Server</li>
+                        <h3><span class="ai">◫</span> End Devices (Hosts)</h3>
+                        <p class="soft" style="font-size:.81rem;margin-bottom:10px">The starting line and finish line for all data.</p>
+                        <ul class="cl mt-s">
+                            <li>Desktops / Laptops</li>
+                            <li>Smartphones / Tablets</li>
+                            <li>Smart TVs / Security Cameras</li>
+                            <li>Web Servers</li>
                         </ul>
                     </div>
                     <div class="pnl">
                         <h3><span class="ai">⇄</span> Intermediary Devices</h3>
-                        <p class="soft" style="font-size:.81rem;margin-bottom:10px">Hover each to learn more.</p>
+                        <p class="soft" style="font-size:.81rem;margin-bottom:10px">The traffic cops. Hover to reveal what they do.</p>
                         <div class="acc">
                             <div class="aci">
                                 <div class="ach"><span>⬡</span> Switch <span class="aar">›</span></div>
                                 <div class="acb">
-                                    <p>Connects devices in the same building (LAN). Knows exactly which port to send
-                                        data to — no wasted traffic.</p>
+                                    <p><strong>The Building Mailroom:</strong> Connects devices within the <mark>same local network</mark> (like a single office). It learns exactly which computer is plugged into which port to prevent traffic jams.</p>
                                 </div>
                             </div>
                             <div class="aci">
                                 <div class="ach"><span>⟿</span> Router <span class="aar">›</span></div>
                                 <div class="acb">
-                                    <p>Connects your local network to the internet — like a post office forwarding
-                                        letters between cities.</p>
+                                    <p><strong>The Global Post Office:</strong> Connects <mark>different networks</mark> together (like connecting your home network to the entire Internet). It calculates the absolute fastest path to get data across the globe.</p>
                                 </div>
                             </div>
                             <div class="aci">
-                                <div class="ach"><span>◎</span> Modem <span class="aar">›</span></div>
+                                <div class="ach"><span>📡</span> Access Point (AP) <span class="aar">›</span></div>
                                 <div class="acb">
-                                    <p>Translates your ISP's signals into a format your router understands — the bridge
-                                        to the outside world.</p>
+                                    <p><strong>The Wireless Bridge:</strong> Acts as an antenna, allowing wireless devices (like your phone) to connect to a physical, wired network using Wi-Fi.</p>
                                 </div>
                             </div>
+                            <div class="aci">
+                                <div class="ach"><span>🧱</span> Firewall <span class="aar">›</span></div>
+                                <div class="acb">
+                                    <p><strong>The Bouncer:</strong> Sits between your private network and the wild internet, blocking malicious traffic and hackers based on strict security rules.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qw mt-m">
+                    <div class="qt"><span>⚡</span> Quick Check — Devices</div>
+                    <div class="qpan">
+                        <div class="qi">
+                            <div class="qq">Which intermediary device is responsible for connecting your home network to the outside Internet?</div>
+                            <div class="qo-wrap">
+                                <div class="qo" data-c="0">Switch</div>
+                                <div class="qo" data-c="1">Router</div>
+                                <div class="qo" data-c="0">Access Point</div>
+                                <div class="qo" data-c="0">End Device</div>
+                            </div>
+                            <div class="qfb"></div>
                         </div>
                     </div>
                 </div>
                 <div class="cnav" data-idx="1"></div>
             </section>
 
-            <!-- §3 TRAITS -->
             <section id="traits" class="chapter gc" data-index="2" data-category="Core Concepts">
                 <div class="ch">
                     <div class="chl">
                         <div class="chn">03</div>
-                        <h2>Network Characteristics</h2>
+                        <h2>Network Metrics & Traits</h2>
                     </div><button class="db" data-idx="2"><span class="dc">○</span> Mark done</button>
                 </div>
-                <p class="soft">The four pillars of a reliable, scalable, secure network. Hover each to explore.</p>
+                <p class="soft">A "good" network isn't just fast. Engineers design networks to excel in these four major areas. Hover each to explore.</p>
+                
                 <div class="fg">
                     <div class="ft">
                         <div class="fi2">♡</div>
                         <h4>Fault Tolerance</h4>
-                        <p>If one cable breaks, the network reroutes automatically — like GPS finding a detour when the
-                            road is closed.</p>
+                        <p><strong>Surviving failures.</strong> If an excavator accidentally cuts a major internet cable, a fault-tolerant network instantly reroutes traffic through a different path (like a GPS finding a detour).</p>
                     </div>
                     <div class="ft">
                         <div class="fi2">⤢</div>
                         <h4>Scalability</h4>
-                        <p>Add 1,000 new devices without slowing existing ones. Good architecture grows without
-                            crumbling.</p>
+                        <p><strong>Room to grow.</strong> A scalable network lets a company add 1,000 new computers tomorrow without causing the internet for the existing computers to slow to a crawl.</p>
                     </div>
                     <div class="ft">
                         <div class="fi2">◉</div>
                         <h4>Quality of Service (QoS)</h4>
-                        <p>VIP bandwidth for video calls — they don't stutter when someone downloads a huge file
-                            simultaneously.</p>
+                        <p><strong>Prioritizing traffic.</strong> QoS gives "VIP" status to live Zoom calls, ensuring they don't stutter just because someone else in the house is downloading a massive 50GB video game.</p>
                     </div>
                     <div class="ft">
                         <div class="fi2">⊛</div>
-                        <h4>Security — CIA Triad</h4>
-                        <p><strong>Confidentiality</strong> (who sees it), <strong>Integrity</strong> (isn't altered),
-                            <strong>Availability</strong> (always accessible).</p>
+                        <h4>Security (CIA Triad)</h4>
+                        <p><strong><mark>C</mark>onfidentiality</strong> (only authorized people read it), <strong><mark>I</mark>ntegrity</strong> (data is not altered by hackers in transit), and <strong><mark>A</mark>vailability</strong> (the network is online when needed).</p>
+                    </div>
+                </div>
+
+                <div class="pnl mt-m">
+                    <h3><span class="ai">🏎️</span> Performance: Speed vs. Reality</h3>
+                    <p class="soft" style="font-size:.85rem;margin-bottom:10px">Understanding how we measure network performance.</p>
+                    <ul class="cl">
+                        <li><strong><mark>Bandwidth</mark>:</strong> The absolute <em>maximum potential</em> speed of a cable. (Analogy: The number of lanes on a highway). Measured in Megabits per second (Mbps).</li>
+                        <li><strong><mark>Throughput</mark>:</strong> The <em>actual, real-world</em> speed you get after traffic jams and network overhead. (Analogy: How fast the cars are actually moving today). Always lower than Bandwidth.</li>
+                        <li><strong><mark>Latency (Ping)</mark>:</strong> The time it takes for a tiny piece of data to travel from point A to point B. Measured in milliseconds (ms). High latency causes "lag" in gaming and voice calls!</li>
+                    </ul>
+                </div>
+
+                <div class="qw mt-m">
+                    <div class="qt"><span>⚡</span> Quick Check — Metrics</div>
+                    <div class="qpan">
+                        <div class="qi">
+                            <div class="qq">You are playing an online game, but there is a noticeable delay between pressing a button and the action happening on screen. Which metric is currently performing poorly?</div>
+                            <div class="qo-wrap">
+                                <div class="qo" data-c="0">Bandwidth</div>
+                                <div class="qo" data-c="0">Throughput</div>
+                                <div class="qo" data-c="1">Latency (Ping)</div>
+                                <div class="qo" data-c="0">Fault Tolerance</div>
+                            </div>
+                            <div class="qfb"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="cnav" data-idx="2"></div>
             </section>
 
-            <!-- §4 DATA FLOW -->
             <section id="flow" class="chapter gc" data-index="3" data-category="Core Concepts">
                 <div class="ch">
                     <div class="chl">
                         <div class="chn">04</div>
-                        <h2>Data Flow Topologies</h2>
+                        <h2>Data Flow Directions</h2>
                     </div><button class="db" data-idx="3"><span class="dc">○</span> Mark done</button>
                 </div>
-                <p class="soft">Direction and simultaneity of data between two devices. Animated live below.</p>
+                <p class="soft">How data moves between two points. Watch the live animations below to understand the differences.</p>
                 <div class="flg">
                     <div class="flr">
                         <div class="fli">
                             <h4>Simplex</h4>
-                            <p>One-way only</p><span class="bdg">Keyboard → PC</span>
+                            <p><strong>One-way street.</strong> The sender can only send, and the receiver can only receive. Data never flows backward.</p>
+                            <span class="bdg">Example: Keyboard → PC</span>
                         </div>
                         <div class="flv">
                             <div class="fn">⌨</div>
@@ -229,7 +276,8 @@
                     <div class="flr">
                         <div class="fli">
                             <h4>Half-Duplex</h4>
-                            <p>Two-way, takes turns</p><span class="bdg">Walkie-Talkie</span>
+                            <p><strong>One-lane bridge.</strong> Data travels in both directions, but <em>only one at a time</em>. If both devices send at once, a collision happens.</p>
+                            <span class="bdg">Example: Walkie-Talkies ("Over!")</span>
                         </div>
                         <div class="flv">
                             <div class="fn">📻</div>
@@ -244,7 +292,8 @@
                     <div class="flr">
                         <div class="fli">
                             <h4>Full-Duplex</h4>
-                            <p>Simultaneous both ways</p><span class="bdg">Phone Call</span>
+                            <p><strong>Two-way highway.</strong> Data travels in both directions <em>simultaneously</em> at full speed without any collisions.</p>
+                            <span class="bdg">Example: Phone Call</span>
                         </div>
                         <div class="flv">
                             <div class="fn">📞</div>
@@ -260,16 +309,16 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="qw mt-m">
                     <div class="qt"><span>⚡</span> Quick Check — Data flow</div>
                     <div class="qpan">
                         <div class="qi">
-                            <div class="qq">A phone call lets both people speak simultaneously. Which flow type is this?
-                            </div>
+                            <div class="qq">A police officer uses a radio to communicate. They must press a button to speak and release it to listen. What type of data flow is this?</div>
                             <div class="qo-wrap">
                                 <div class="qo" data-c="0">Simplex</div>
-                                <div class="qo" data-c="0">Half-Duplex</div>
-                                <div class="qo" data-c="1">Full-Duplex</div>
+                                <div class="qo" data-c="1">Half-Duplex</div>
+                                <div class="qo" data-c="0">Full-Duplex</div>
                             </div>
                             <div class="qfb"></div>
                         </div>
@@ -278,50 +327,49 @@
                 <div class="cnav" data-idx="3"></div>
             </section>
 
-            <!-- §5 PROTOCOLS -->
             <section id="protocols" class="chapter gc" data-index="4" data-category="Protocols">
                 <div class="ch">
                     <div class="chl">
                         <div class="chn">05</div>
-                        <h2>Protocols — The Rules</h2>
+                        <h2>Protocols (The Rules)</h2>
                     </div><button class="db" data-idx="4"><span class="dc">○</span> Mark done</button>
                 </div>
                 <div class="co cp">
                     <div class="co-ico">⊟</div>
                     <div class="co-bdy">
-                        <p>A protocol defines <strong>What</strong> is communicated, <strong>How</strong> it's
-                            formatted, and <strong>When</strong> it's sent — like a language both devices agree to
-                            speak.</p>
+                        <p><strong>What is a protocol?</strong> Imagine two humans trying to talk; they must agree on a language (English) and rules (don't speak at the same time). For computers, a <mark>Protocol</mark> is a strict set of rules defining exactly how data is formatted and sent.</p>
                     </div>
                 </div>
                 <div class="g2 mt-m">
                     <div class="pnl">
-                        <h3><span class="ai">◈</span> Protocol Elements</h3>
+                        <h3><span class="ai">⇶</span> Delivery Methods</h3>
+                        <p class="soft" style="font-size:.81rem;margin-bottom:10px">Who is the message for?</p>
                         <ul class="cl mt-s">
-                            <li><strong>Encoding:</strong> Converting text/video into digital signals.</li>
-                            <li><strong>Encapsulation:</strong> Wrapping data in envelopes with addressing info.</li>
-                            <li><strong>Message Size:</strong> Breaking large files into packets.</li>
-                            <li><strong>Timing:</strong> When to send and how fast — avoiding collisions.</li>
+                            <li><strong>Unicast (1-to-1):</strong> Sending to exactly one specific device. <em>(Analogy: A private text message)</em>.</li>
+                            <li><strong>Multicast (1-to-Many):</strong> Sending to a specific, subscribed group. <em>(Analogy: A group chat)</em>.</li>
+                            <li><strong>Broadcast (1-to-All):</strong> Shouting to absolutely every device on the local network. <em>(Analogy: A PA announcement)</em>.</li>
                         </ul>
                     </div>
                     <div class="pnl">
-                        <h3><span class="ai">⇶</span> Delivery Methods</h3>
+                        <h3><span class="ai">📚</span> Famous Protocols</h3>
+                        <p class="soft" style="font-size:.81rem;margin-bottom:10px">The languages of the internet.</p>
                         <ul class="cl mt-s">
-                            <li><strong>Unicast:</strong> Sending to exactly one device — a direct message.</li>
-                            <li><strong>Multicast:</strong> Sending to a selected group — a group chat.</li>
-                            <li><strong>Broadcast:</strong> Sending to every device — a PA announcement.</li>
+                            <li><strong>HTTP/HTTPS:</strong> Rules for transferring web pages securely.</li>
+                            <li><strong><mark>TCP</mark>:</strong> The "Reliable Courier". It double-checks that data arrived perfectly, and resends it if lost. Used for Emails and Web browsing.</li>
+                            <li><strong><mark>UDP</mark>:</strong> The "Fast Courier". It throws data at the receiver instantly without checking if it arrived. Used for Live Video and Gaming where speed matters more than perfection.</li>
                         </ul>
                     </div>
                 </div>
+
                 <div class="qw mt-m">
-                    <div class="qt"><span>⚡</span> Quick Check — Delivery</div>
+                    <div class="qt"><span>⚡</span> Quick Check — Protocols</div>
                     <div class="qpan">
                         <div class="qi">
-                            <div class="qq">Which delivery method sends data to ALL devices simultaneously?</div>
+                            <div class="qq">You are streaming a live sports game. If a tiny piece of data gets lost, it's better to just skip it rather than pause the whole game to resend it. Which protocol is best for this?</div>
                             <div class="qo-wrap">
-                                <div class="qo" data-c="0">Unicast</div>
-                                <div class="qo" data-c="0">Multicast</div>
-                                <div class="qo" data-c="1">Broadcast</div>
+                                <div class="qo" data-c="0">HTTP</div>
+                                <div class="qo" data-c="0">TCP</div>
+                                <div class="qo" data-c="1">UDP</div>
                             </div>
                             <div class="qfb"></div>
                         </div>
@@ -330,23 +378,421 @@
                 <div class="cnav" data-idx="4"></div>
             </section>
 
+            <section id="net-types" class="chapter gc" data-index="5" data-category="Network Architecture">
+                <div class="ch">
+                    <div class="chl">
+                        <div class="chn">06</div>
+                        <h2>Types of Networks</h2>
+                    </div><button class="db" data-idx="5"><span class="dc">○</span> Mark done</button>
+                </div>
+                <p class="soft">Networks are categorized primarily by the geographical distance they cover.</p>
+                <div class="g2 mt-m">
+                    <div class="pnl">
+                        <h3><span class="ai">🏠</span> LAN (Local Area Network)</h3>
+                        <p>A network contained in a small, single physical location. Your house, a coffee shop, or a single office building is a LAN.</p>
+                        <p class="soft mt-s" style="font-size:.85rem;">Devices here usually share one Router to reach the outside world.</p>
+                    </div>
+                    <div class="pnl">
+                        <h3><span class="ai">🌍</span> WAN (Wide Area Network)</h3>
+                        <p>A massive network spanning vast distances—cities, countries, or the globe. A WAN is essentially thousands of LANs connected together.</p>
+                        <p class="soft mt-s" style="font-size:.85rem;">The <strong>Internet</strong> is the largest WAN in existence.</p>
+                    </div>
+                </div>
+                
+                <div class="acc mt-m">
+                    <div class="aci">
+                        <div class="ach"><span>📱</span> Other Network Types <span class="aar">›</span></div>
+                        <div class="acb">
+                            <ul class="cl mt-s" style="padding: 0 16px 16px;">
+                                <li><strong>WLAN (Wireless LAN):</strong> A LAN that uses Wi-Fi instead of physical cables.</li>
+                                <li><strong>PAN (Personal Area Network):</strong> Very short range around a single person (e.g., Bluetooth earbuds to a phone).</li>
+                                <li><strong>MAN (Metropolitan Area Network):</strong> Covers an entire city or a massive university campus.</li>
+                                <li><strong><mark>VPN</mark> (Virtual Private Network):</strong> A secure, encrypted "tunnel" over a public network (like the Internet). It tricks your computer into acting like it's securely inside your office's LAN, even if you are at a coffee shop.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qw mt-m">
+                    <div class="qt"><span>⚡</span> Quick Check — Network Types</div>
+                    <div class="qpan">
+                        <div class="qi">
+                            <div class="qq">The computers and printers inside a single small office building are connected to form a...</div>
+                            <div class="qo-wrap">
+                                <div class="qo" data-c="1">LAN</div>
+                                <div class="qo" data-c="0">WAN</div>
+                                <div class="qo" data-c="0">PAN</div>
+                                <div class="qo" data-c="0">VPN</div>
+                            </div>
+                            <div class="qfb"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cnav" data-idx="5"></div>
+            </section>
+
+            <section id="addressing" class="chapter gc" data-index="6" data-category="Core Concepts">
+                <div class="ch">
+                    <div class="chl">
+                        <div class="chn">07</div>
+                        <h2>IP, MAC & Ports</h2>
+                    </div><button class="db" data-idx="6"><span class="dc">○</span> Mark done</button>
+                </div>
+                <p class="soft">Just like sending a physical letter, data needs a precise address to reach its destination. Computers actually use three layers of addressing to find you.</p>
+                
+                <div class="g2 mt-m">
+                    <div class="pnl">
+                        <h3><span class="ai">🏷️</span> <mark>MAC Address</mark> (Physical)</h3>
+                        <p class="soft" style="font-size:.81rem;margin-bottom:10px">Analogy: The permanent VIN Number of your car.</p>
+                        <ul class="cl">
+                            <li><strong>Permanent:</strong> Burned into your device's hardware chip at the factory. It never changes.</li>
+                            <li><strong>Scope:</strong> Used only for local delivery inside your own house/LAN.</li>
+                            <li><strong>Format:</strong> Hexadecimal pairs (e.g., <code>00:1A:2B:3C:4D:5E</code>)</li>
+                        </ul>
+                    </div>
+                    <div class="pnl">
+                        <h3><span class="ai">📍</span> <mark>IP Address</mark> (Logical)</h3>
+                        <p class="soft" style="font-size:.81rem;margin-bottom:10px">Analogy: Your street address or current parking spot.</p>
+                        <ul class="cl">
+                            <li><strong>Temporary:</strong> Assigned by the network you connect to. It changes if you take your laptop to a coffee shop.</li>
+                            <li><strong>Scope:</strong> Used to route data globally across the entire Internet.</li>
+                            <li><strong>IPv4 vs IPv6:</strong> IPv4 (e.g., <code>192.168.1.15</code>) ran out of numbers. IPv6 is the modern, longer replacement.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pnl mt-m">
+                    <h3><span class="ai">🚪</span> Port Numbers (The Apartment Number)</h3>
+                    <p class="soft">If the IP Address gets the data to the correct <em>Apartment Building</em> (your computer), the <mark>Port Number</mark> gets it to the correct <em>Apartment Room</em> (your application).</p>
+                    <p class="soft mt-s" style="font-size:.85rem;">When data arrives at your PC, how does it know to go to Google Chrome instead of your Spotify app? Ports! (e.g., Port 80 is for Web Traffic, Port 443 is for secure HTTPS, Port 25 is for Email).</p>
+                </div>
+
+                <div class="qw mt-m">
+                    <div class="qt"><span>⚡</span> Quick Check — Addressing</div>
+                    <div class="qpan">
+                        <div class="qi">
+                            <div class="qq">You pack up your laptop and move from your home Wi-Fi to a library's Wi-Fi. Which address changes to reflect your new location?</div>
+                            <div class="qo-wrap">
+                                <div class="qo" data-c="0">MAC Address</div>
+                                <div class="qo" data-c="1">IP Address</div>
+                                <div class="qo" data-c="0">Port Number</div>
+                                <div class="qo" data-c="0">None of them change</div>
+                            </div>
+                            <div class="qfb"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cnav" data-idx="6"></div>
+            </section>
+
+            <section id="services" class="chapter gc" data-index="7" data-category="Protocols">
+                <div class="ch">
+                    <div class="chl">
+                        <div class="chn">08</div>
+                        <h2>How the Internet Works</h2>
+                    </div><button class="db" data-idx="7"><span class="dc">○</span> Mark done</button>
+                </div>
+                <div class="co ca">
+                    <div class="co-ico">🏢</div>
+                    <div class="co-bdy">
+                        <p><strong>The Corporate Building Analogy:</strong> To use a network, you need an ID badge, and you need a directory to find people. Two critical invisible services handle this for you automatically.</p>
+                    </div>
+                </div>
+
+                <div class="g2 mt-m">
+                    <div class="pnl">
+                        <h3><span class="ai">🎫</span> <mark>DHCP</mark> (The Receptionist)</h3>
+                        <p class="soft" style="font-size:.81rem;margin-bottom:10px">Dynamic Host Configuration Protocol</p>
+                        <p>When you connect to Wi-Fi, you need an IP address to communicate. You don't type one in manually; DHCP hands it to you.</p>
+                        <p class="soft mt-s" style="font-size:.85rem;"><strong>Analogy:</strong> Walking into a building and the Receptionist hands you a temporary visitor badge so you are allowed inside.</p>
+                    </div>
+                    <div class="pnl">
+                        <h3><span class="ai">📖</span> <mark>DNS</mark> (The Phonebook)</h3>
+                        <p class="soft" style="font-size:.81rem;margin-bottom:10px">Domain Name System</p>
+                        <p>Computers only understand numbers (IP Addresses like <code>142.250.190.46</code>). Humans prefer words (<code>google.com</code>). DNS translates human words into computer numbers instantly.</p>
+                        <p class="soft mt-s" style="font-size:.85rem;"><strong>Analogy:</strong> Looking up a friend's name in your phone's contacts to find their actual phone number.</p>
+                    </div>
+                </div>
+
+                <div class="qw mt-m">
+                    <div class="qt"><span>⚡</span> Quick Check — Services</div>
+                    <div class="qpan">
+                        <div class="qi">
+                            <div class="qq">You type "netflix.com" into your browser. Which service works behind the scenes to find the actual IP address for Netflix?</div>
+                            <div class="qo-wrap">
+                                <div class="qo" data-c="0">DHCP</div>
+                                <div class="qo" data-c="1">DNS</div>
+                                <div class="qo" data-c="0">VPN</div>
+                                <div class="qo" data-c="0">TCP</div>
+                            </div>
+                            <div class="qfb"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cnav" data-idx="7"></div>
+            </section>
+
+            <section id="topologies" class="chapter gc" data-index="8" data-category="Network Architecture">
+                <div class="ch">
+                    <div class="chl">
+                        <div class="chn">09</div>
+                        <h2>Network Topologies</h2>
+                    </div><button class="db" data-idx="8"><span class="dc">○</span> Mark done</button>
+                </div>
+                <p class="soft">Topology is the "map" or physical layout of how devices are wired together. Hover each to reveal detailed diagrams, pros, and cons.</p>
+                <div class="acc mt-m">
+                    
+                    <div class="aci">
+                        <div class="ach"><span>⭐</span> Star Topology <span class="aar">›</span></div>
+                        <div class="acb">
+                            <div style="position:relative; width: 100%; height: 160px; background: var(--glass-deep); border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--glass-border); display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:1;">
+                                    <line x1="50%" y1="20%" x2="50%" y2="80%" stroke="var(--text-3)" stroke-width="2" stroke-dasharray="4"/>
+                                    <line x1="25%" y1="50%" x2="75%" y2="50%" stroke="var(--text-3)" stroke-width="2" stroke-dasharray="4"/>
+                                    <circle cx="50%" cy="50%" r="10" fill="var(--accent)"/>
+                                </svg>
+                                <div style="position:absolute; z-index:2; top: 5%; font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">💻</div>
+                                <div style="position:absolute; z-index:2; bottom: 5%; font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">🖨️</div>
+                                <div style="position:absolute; z-index:2; left: 16%; font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">💻</div>
+                                <div style="position:absolute; z-index:2; right: 16%; font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">💻</div>
+                            </div>
+                            <p><strong>Concept:</strong> All devices connect individually to a central hub or switch (like spokes on a wheel). This is the standard for modern homes and offices.</p>
+                            <ul class="cl mt-s" style="padding: 0 16px 16px;">
+                                <li><strong>✅ Pros:</strong> Easy to setup. If one computer's cable breaks, only that computer loses connection.</li>
+                                <li><strong>❌ Cons:</strong> Single point of failure. If the central switch dies, the entire network fails.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="aci">
+                        <div class="ach"><span>🕸️</span> Mesh Topology <span class="aar">›</span></div>
+                        <div class="acb">
+                            <div style="position:relative; width: 100%; height: 160px; background: var(--glass-deep); border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--glass-border); display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:1;">
+                                    <line x1="30%" y1="25%" x2="70%" y2="25%" stroke="var(--text-3)" stroke-width="2"/>
+                                    <line x1="30%" y1="75%" x2="70%" y2="75%" stroke="var(--text-3)" stroke-width="2"/>
+                                    <line x1="30%" y1="25%" x2="30%" y2="75%" stroke="var(--text-3)" stroke-width="2"/>
+                                    <line x1="70%" y1="25%" x2="70%" y2="75%" stroke="var(--text-3)" stroke-width="2"/>
+                                    <line x1="30%" y1="25%" x2="70%" y2="75%" stroke="var(--text-3)" stroke-width="2"/>
+                                    <line x1="30%" y1="75%" x2="70%" y2="25%" stroke="var(--text-3)" stroke-width="2"/>
+                                </svg>
+                                <div style="position:absolute; z-index:2; top: 12%; left: 26%; font-size: 1.5rem;">💻</div>
+                                <div style="position:absolute; z-index:2; top: 12%; right: 26%; font-size: 1.5rem;">💻</div>
+                                <div style="position:absolute; z-index:2; bottom: 12%; left: 26%; font-size: 1.5rem;">💻</div>
+                                <div style="position:absolute; z-index:2; bottom: 12%; right: 26%; font-size: 1.5rem;">💻</div>
+                            </div>
+                            <p><strong>Concept:</strong> Every single device has a direct, dedicated cable connecting it to every other device on the network.</p>
+                            <ul class="cl mt-s" style="padding: 0 16px 16px;">
+                                <li><strong>✅ Pros:</strong> Unbeatable fault tolerance. If cables break, data automatically routes around them.</li>
+                                <li><strong>❌ Cons:</strong> Incredibly expensive and messy to run that many cables. Used mostly for core internet infrastructure.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="aci">
+                        <div class="ach"><span>➖</span> Bus Topology <span class="aar">›</span></div>
+                        <div class="acb">
+                            <div style="position:relative; width: 100%; height: 160px; background: var(--glass-deep); border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--glass-border); display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:1;">
+                                    <line x1="15%" y1="65%" x2="85%" y2="65%" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/>
+                                    <line x1="25%" y1="35%" x2="25%" y2="65%" stroke="var(--text-3)" stroke-width="2" stroke-dasharray="4"/>
+                                    <line x1="50%" y1="35%" x2="50%" y2="65%" stroke="var(--text-3)" stroke-width="2" stroke-dasharray="4"/>
+                                    <line x1="75%" y1="35%" x2="75%" y2="65%" stroke="var(--text-3)" stroke-width="2" stroke-dasharray="4"/>
+                                </svg>
+                                <div style="position:absolute; z-index:2; top: 15%; left: 21%; font-size: 1.5rem;">💻</div>
+                                <div style="position:absolute; z-index:2; top: 15%; left: 46%; font-size: 1.5rem;">🖨️</div>
+                                <div style="position:absolute; z-index:2; top: 15%; right: 21%; font-size: 1.5rem;">💻</div>
+                            </div>
+                            <p><strong>Concept:</strong> An older design where all devices share one single main backbone cable (the "bus").</p>
+                            <ul class="cl mt-s" style="padding: 0 16px 16px;">
+                                <li><strong>✅ Pros:</strong> Very cheap to install. Uses the least amount of cable.</li>
+                                <li><strong>❌ Cons:</strong> If the main central cable gets cut, the entire network goes offline. High chance of data collisions.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qw mt-m">
+                    <div class="qt"><span>⚡</span> Quick Check — Topologies</div>
+                    <div class="qpan">
+                        <div class="qi">
+                            <div class="qq">Which topology connects all computers to a single, central Switch?</div>
+                            <div class="qo-wrap">
+                                <div class="qo" data-c="0">Mesh Topology</div>
+                                <div class="qo" data-c="0">Bus Topology</div>
+                                <div class="qo" data-c="1">Star Topology</div>
+                            </div>
+                            <div class="qfb"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cnav" data-idx="8"></div>
+            </section>
+
+            <section id="osi" class="chapter gc" data-index="9" data-category="Advanced Concepts">
+                <div class="ch">
+                    <div class="chl">
+                        <div class="chn">10</div>
+                        <h2>The OSI Model Layers</h2>
+                    </div><button class="db" data-idx="9"><span class="dc">○</span> Mark done</button>
+                </div>
+                <div class="co cp">
+                    <div class="co-ico">🥞</div>
+                    <div class="co-bdy">
+                        <p><strong>How a click becomes electricity.</strong> The OSI model is a 7-layer theoretical blueprint. It explains the exact journey data takes from your screen, down into physical electricity on a cable, and back up to an app on a friend's screen.</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 4px; max-width: 100%; margin: 25px 0; font-size: 0.9rem; color: #111;">
+                    <div style="background: #ffb3ba; border-left: 6px solid #ff6384; padding: 12px; border-radius: 0 6px 6px 0; display:flex; justify-content:space-between; align-items:center;"><strong>7. Application</strong> <span style="opacity:0.6; font-family:monospace; font-size: 0.75rem; background:rgba(255,255,255,0.4); padding: 2px 6px; border-radius:4px;">DATA</span></div>
+                    <div style="background: #ffdfba; border-left: 6px solid #ff9f40; padding: 12px; border-radius: 0 6px 6px 0; display:flex; justify-content:space-between; align-items:center;"><strong>6. Presentation</strong> <span style="opacity:0.6; font-family:monospace; font-size: 0.75rem; background:rgba(255,255,255,0.4); padding: 2px 6px; border-radius:4px;">DATA</span></div>
+                    <div style="background: #ffffba; border-left: 6px solid #ffcd56; padding: 12px; border-radius: 0 6px 6px 0; display:flex; justify-content:space-between; align-items:center;"><strong>5. Session</strong> <span style="opacity:0.6; font-family:monospace; font-size: 0.75rem; background:rgba(255,255,255,0.4); padding: 2px 6px; border-radius:4px;">DATA</span></div>
+                    <div style="background: #baffc9; border-left: 6px solid #4bc0c0; padding: 12px; border-radius: 0 6px 6px 0; display:flex; justify-content:space-between; align-items:center;"><strong>4. Transport</strong> <span style="opacity:0.6; font-family:monospace; font-size: 0.75rem; background:rgba(255,255,255,0.4); padding: 2px 6px; border-radius:4px;">SEGMENTS</span></div>
+                    <div style="background: #bae1ff; border-left: 6px solid #36a2eb; padding: 12px; border-radius: 0 6px 6px 0; display:flex; justify-content:space-between; align-items:center;"><strong>3. Network</strong> <span style="opacity:0.6; font-family:monospace; font-size: 0.75rem; background:rgba(255,255,255,0.4); padding: 2px 6px; border-radius:4px;">PACKETS</span></div>
+                    <div style="background: #d5baff; border-left: 6px solid #9966ff; padding: 12px; border-radius: 0 6px 6px 0; display:flex; justify-content:space-between; align-items:center;"><strong>2. Data Link</strong> <span style="opacity:0.6; font-family:monospace; font-size: 0.75rem; background:rgba(255,255,255,0.4); padding: 2px 6px; border-radius:4px;">FRAMES</span></div>
+                    <div style="background: #e2e2e2; border-left: 6px solid #9ea0a5; padding: 12px; border-radius: 0 6px 6px 0; display:flex; justify-content:space-between; align-items:center;"><strong>1. Physical</strong> <span style="opacity:0.6; font-family:monospace; font-size: 0.75rem; background:rgba(255,255,255,0.4); padding: 2px 6px; border-radius:4px;">BITS (0s & 1s)</span></div>
+                </div>
+                
+                <p class="soft mt-m"><strong>Layer Breakdown:</strong> Hover over each layer to learn what happens at each stage.</p>
+
+                <div class="acc mt-s">
+                    <div class="aci">
+                        <div class="ach"><span>7</span> Application Layer <span class="aar">›</span></div>
+                        <div class="acb">
+                            <p><strong>Software Integration:</strong> Where your actual applications (Chrome, WhatsApp) interact with the network. Provides services like HTTP.</p>
+                        </div>
+                    </div>
+                    <div class="aci">
+                        <div class="ach"><span>6</span> Presentation Layer <span class="aar">›</span></div>
+                        <div class="acb">
+                            <p><strong>The Translator:</strong> Formats, encrypts, and compresses data. It ensures a JPEG picture sent from a Mac still looks like a JPEG on a PC. SSL encryption happens here.</p>
+                        </div>
+                    </div>
+                    <div class="aci">
+                        <div class="ach"><span>5</span> Session Layer <span class="aar">›</span></div>
+                        <div class="acb">
+                            <p><strong>The Secretary:</strong> Opens, manages, and gracefully closes the connection (the "session") between two devices to ensure data transfer isn't interrupted.</p>
+                        </div>
+                    </div>
+                    <div class="aci">
+                        <div class="ach"><span>4</span> Transport Layer <span class="aar">›</span></div>
+                        <div class="acb">
+                            <p><strong>The Postmaster:</strong> Chops massive data files into smaller "<mark>Segments</mark>". Assigns <strong>Port Numbers</strong>. Uses TCP (reliable) or UDP (fast).</p>
+                        </div>
+                    </div>
+                    <div class="aci">
+                        <div class="ach"><span>3</span> Network Layer <span class="aar">›</span></div>
+                        <div class="acb">
+                            <p><strong>The Global Navigator:</strong> Adds logical <strong><mark>IP Addresses</mark></strong> to create "<mark>Packets</mark>". Calculates the best route across the globe. <strong>Routers</strong> operate exclusively here.</p>
+                        </div>
+                    </div>
+                    <div class="aci">
+                        <div class="ach"><span>2</span> Data Link Layer <span class="aar">›</span></div>
+                        <div class="acb">
+                            <p><strong>The Local Courier:</strong> Adds physical <strong><mark>MAC Addresses</mark></strong> to create "<mark>Frames</mark>" for delivery on the local network. <strong>Switches</strong> operate here.</p>
+                        </div>
+                    </div>
+                    <div class="aci">
+                        <div class="ach"><span>1</span> Physical Layer <span class="aar">›</span></div>
+                        <div class="acb">
+                            <p><strong>The Raw Hardware:</strong> Converts digital "<mark>Bits</mark>" (1s and 0s) into actual electrical pulses (copper cables), light signals (fiber optics), or radio waves (Wi-Fi).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qw mt-m">
+                    <div class="qt"><span>⚡</span> Quick Check — OSI Model</div>
+                    <div class="qpan">
+                        <div class="qi">
+                            <div class="qq">At which layer of the OSI model do Routers operate, using IP Addresses to find the best path across the globe?</div>
+                            <div class="qo-wrap">
+                                <div class="qo" data-c="0">Layer 1 (Physical)</div>
+                                <div class="qo" data-c="0">Layer 2 (Data Link)</div>
+                                <div class="qo" data-c="1">Layer 3 (Network)</div>
+                                <div class="qo" data-c="0">Layer 4 (Transport)</div>
+                            </div>
+                            <div class="qfb"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cnav" data-idx="9"></div>
+            </section>
+
+            <section id="security" class="chapter gc" data-index="10" data-category="Advanced Concepts">
+                <div class="ch">
+                    <div class="chl">
+                        <div class="chn">11</div>
+                        <h2>Wireless & Security Basics</h2>
+                    </div><button class="db" data-idx="10"><span class="dc">○</span> Mark done</button>
+                </div>
+                <p class="soft">A quick primer on how data flies through the air, and how we keep bad actors from stealing it.</p>
+                
+                <div class="g2 mt-m">
+                    <div class="pnl">
+                        <h3><span class="ai">📶</span> Wi-Fi Frequencies</h3>
+                        <p class="soft" style="font-size:.81rem;margin-bottom:10px">The invisible radio waves carrying your data.</p>
+                        <ul class="cl">
+                            <li><strong>2.4 GHz:</strong> Slower speeds, but the waves travel <em>farther</em> and penetrate thick walls easily.</li>
+                            <li><strong>5 GHz:</strong> Much faster speeds, but <em>shorter range</em> and blocked easily by solid objects.</li>
+                            <li><strong>Wi-Fi 6 / 7:</strong> Modern wireless standards built to handle dozens of smart devices simultaneously without lagging.</li>
+                        </ul>
+                    </div>
+                    <div class="pnl">
+                        <h3><span class="ai">🛡️</span> Common Threats</h3>
+                        <p class="soft" style="font-size:.81rem;margin-bottom:10px">What Firewalls try to block.</p>
+                        <ul class="cl">
+                            <li><strong><mark>Malware</mark>:</strong> Malicious software (like viruses or ransomware) designed to damage or lock devices.</li>
+                            <li><strong><mark>Phishing</mark>:</strong> Fake emails tricking humans into willingly giving away passwords.</li>
+                            <li><strong><mark>DDoS Attack</mark>:</strong> Flooding a server with so much fake, automated traffic that legitimate users can't get in (like a purposeful traffic jam).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="qw mt-m">
+                    <div class="qt"><span>⚡</span> Quick Check — Security</div>
+                    <div class="qpan">
+                        <div class="qi">
+                            <div class="qq">An attacker uses thousands of hacked computers to send fake traffic to a website, causing it to crash and go offline. What type of attack is this?</div>
+                            <div class="qo-wrap">
+                                <div class="qo" data-c="0">Phishing</div>
+                                <div class="qo" data-c="0">Malware</div>
+                                <div class="qo" data-c="1">DDoS Attack</div>
+                            </div>
+                            <div class="qfb"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cnav" data-idx="10"></div>
+            </section>
+
         </main>
 
-        <!-- RIGHT SIDEBAR -->
         <aside class="rs">
             <div class="rs-sec">
                 <div class="rs-lbl">On this page</div>
                 <div class="ol" id="outlineList"></div>
             </div>
             <div class="rs-sec">
-                <div class="rs-lbl">Glossary</div>
-                <div class="glist" id="glossList"></div>
+                <div class="rs-lbl">Glossary Quick-Reference</div>
+                <div class="glist" id="glossList">
+                    <div class="gi">
+                        <div class="gt">Bandwidth <span class="gar">›</span></div>
+                        <div class="gd"><p>The maximum capacity of a network connection, like the number of lanes on a highway.</p></div>
+                    </div>
+                    <div class="gi">
+                        <div class="gt">Latency <span class="gar">›</span></div>
+                        <div class="gd"><p>The time delay it takes for a packet to travel from sender to receiver. Often called "Ping".</p></div>
+                    </div>
+                    <div class="gi">
+                        <div class="gt">Packet <span class="gar">›</span></div>
+                        <div class="gd"><p>A tiny chunk of data wrapped with an IP address, ready to be sent across the internet.</p></div>
+                    </div>
+                </div>
             </div>
             <div class="rs-sec">
-                <div class="rs-lbl">Tips</div>
+                <div class="rs-lbl">Pro Tips</div>
                 <div class="tb">
-                    <p>Hover accordions &amp; quiz teasers to reveal content.<br><br>Press <kbd>Ctrl</kbd>+<kbd>F</kbd>
-                        or use the search bar to find any term instantly.</p>
+                    <p>Hover over accordions and click the "⚡ Quick Check" boxes to test your knowledge!<br><br>Press <kbd>Ctrl</kbd>+<kbd>F</kbd> or use the top search bar to find any term instantly.</p>
                 </div>
             </div>
         </aside>
