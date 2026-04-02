@@ -66,6 +66,7 @@
                 <p>Try "router", "protocol", or "duplex"</p>
             </div>
 
+            <!-- §1 BASICS -->
             <section id="basics" class="chapter gc" data-index="0" data-category="Foundations">
                 <div class="ch">
                     <div class="chl">
@@ -119,6 +120,7 @@
                 <div class="cnav" data-idx="0"></div>
             </section>
 
+            <!-- §2 DEVICES -->
             <section id="devices" class="chapter gc" data-index="1" data-category="Foundations">
                 <div class="ch">
                     <div class="chl">
@@ -188,6 +190,7 @@
                 <div class="cnav" data-idx="1"></div>
             </section>
 
+            <!-- §3 TRAITS -->
             <section id="traits" class="chapter gc" data-index="2" data-category="Core Concepts">
                 <div class="ch">
                     <div class="chl">
@@ -248,6 +251,7 @@
                 <div class="cnav" data-idx="2"></div>
             </section>
 
+            <!-- §4 DATA FLOW -->
             <section id="flow" class="chapter gc" data-index="3" data-category="Core Concepts">
                 <div class="ch">
                     <div class="chl">
@@ -327,6 +331,7 @@
                 <div class="cnav" data-idx="3"></div>
             </section>
 
+            <!-- §5 PROTOCOLS -->
             <section id="protocols" class="chapter gc" data-index="4" data-category="Protocols">
                 <div class="ch">
                     <div class="chl">
@@ -378,6 +383,7 @@
                 <div class="cnav" data-idx="4"></div>
             </section>
 
+            <!-- §6 NETWORK TYPES -->
             <section id="net-types" class="chapter gc" data-index="5" data-category="Network Architecture">
                 <div class="ch">
                     <div class="chl">
@@ -431,6 +437,7 @@
                 <div class="cnav" data-idx="5"></div>
             </section>
 
+            <!-- §7 ADDRESSING -->
             <section id="addressing" class="chapter gc" data-index="6" data-category="Core Concepts">
                 <div class="ch">
                     <div class="chl">
@@ -485,12 +492,68 @@
                 <div class="cnav" data-idx="6"></div>
             </section>
 
-            <section id="services" class="chapter gc" data-index="7" data-category="Protocols">
+            <!-- §8 NAT -->
+            <section id="nat" class="chapter gc" data-index="7" data-category="Core Concepts">
                 <div class="ch">
                     <div class="chl">
                         <div class="chn">08</div>
-                        <h2>How the Internet Works</h2>
+                        <h2>Public vs. Private IPs (NAT)</h2>
                     </div><button class="db" data-idx="7"><span class="dc">○</span> Mark done</button>
+                </div>
+                <p class="soft">Have you ever wondered how 15 devices in your home all share one single internet connection? The answer is NAT.</p>
+                
+                <div class="co cp mt-m">
+                    <div class="co-ico">🎭</div>
+                    <div class="co-bdy">
+                        <p><strong><mark>NAT</mark> (Network Address Translation):</strong> The internet ran out of IPv4 addresses. To solve this, NAT was invented. It allows your home Router to act as a middleman. </p>
+                        <p class="mt-s"><strong>The Corporate Office Analogy:</strong> A business only has one public phone number (Your Public IP). When you call outside, the Caller ID shows that main number. But inside the building, every desk has a private extension like "101" or "102" (Your Private IPs). NAT is the receptionist routing the calls to the right internal desk.</p>
+                    </div>
+                </div>
+
+                <div class="g2 mt-m">
+                    <div class="pnl">
+                        <h3><span class="ai">🏡</span> Private IP</h3>
+                        <ul class="cl mt-s">
+                            <li>Used exclusively inside your LAN.</li>
+                            <li>Completely invisible to the outside internet.</li>
+                            <li>Given to you by your local Router.</li>
+                            <li>Often starts with <code>192.168.x.x</code> or <code>10.x.x.x</code>.</li>
+                        </ul>
+                    </div>
+                    <div class="pnl">
+                        <h3><span class="ai">🌐</span> Public IP</h3>
+                        <ul class="cl mt-s">
+                            <li>Used globally on the WAN (Internet).</li>
+                            <li>Visible to every website you visit.</li>
+                            <li>Given to your Router by your Internet Provider (ISP).</li>
+                            <li>There is only one per household!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="qw mt-m">
+                    <div class="qt"><span>⚡</span> Quick Check — NAT</div>
+                    <div class="qpan">
+                        <div class="qi">
+                            <div class="qq">Which IP address is entirely invisible to the outside internet and only works inside your home network?</div>
+                            <div class="qo-wrap">
+                                <div class="qo" data-c="0">Public IP Address</div>
+                                <div class="qo" data-c="1">Private IP Address</div>
+                            </div>
+                            <div class="qfb"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cnav" data-idx="7"></div>
+            </section>
+
+            <!-- §9 SERVICES -->
+            <section id="services" class="chapter gc" data-index="8" data-category="Protocols">
+                <div class="ch">
+                    <div class="chl">
+                        <div class="chn">09</div>
+                        <h2>How the Internet Works</h2>
+                    </div><button class="db" data-idx="8"><span class="dc">○</span> Mark done</button>
                 </div>
                 <div class="co ca">
                     <div class="co-ico">🏢</div>
@@ -529,15 +592,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="cnav" data-idx="7"></div>
+                <div class="cnav" data-idx="8"></div>
             </section>
 
-            <section id="topologies" class="chapter gc" data-index="8" data-category="Network Architecture">
+            <!-- §10 TOPOLOGIES -->
+            <section id="topologies" class="chapter gc" data-index="9" data-category="Network Architecture">
                 <div class="ch">
                     <div class="chl">
-                        <div class="chn">09</div>
+                        <div class="chn">10</div>
                         <h2>Network Topologies</h2>
-                    </div><button class="db" data-idx="8"><span class="dc">○</span> Mark done</button>
+                    </div><button class="db" data-idx="9"><span class="dc">○</span> Mark done</button>
                 </div>
                 <p class="soft">Topology is the "map" or physical layout of how devices are wired together. Hover each to reveal detailed diagrams, pros, and cons.</p>
                 <div class="acc mt-m">
@@ -626,15 +690,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="cnav" data-idx="8"></div>
+                <div class="cnav" data-idx="9"></div>
             </section>
 
-            <section id="osi" class="chapter gc" data-index="9" data-category="Advanced Concepts">
+            <!-- §11 THE OSI MODEL -->
+            <section id="osi" class="chapter gc" data-index="10" data-category="Advanced Concepts">
                 <div class="ch">
                     <div class="chl">
-                        <div class="chn">10</div>
+                        <div class="chn">11</div>
                         <h2>The OSI Model Layers</h2>
-                    </div><button class="db" data-idx="9"><span class="dc">○</span> Mark done</button>
+                    </div><button class="db" data-idx="10"><span class="dc">○</span> Mark done</button>
                 </div>
                 <div class="co cp">
                     <div class="co-ico">🥞</div>
@@ -715,15 +780,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="cnav" data-idx="9"></div>
+                <div class="cnav" data-idx="10"></div>
             </section>
 
-            <section id="security" class="chapter gc" data-index="10" data-category="Advanced Concepts">
+            <!-- §12 SECURITY -->
+            <section id="security" class="chapter gc" data-index="11" data-category="Advanced Concepts">
                 <div class="ch">
                     <div class="chl">
-                        <div class="chn">11</div>
+                        <div class="chn">12</div>
                         <h2>Wireless & Security Basics</h2>
-                    </div><button class="db" data-idx="10"><span class="dc">○</span> Mark done</button>
+                    </div><button class="db" data-idx="11"><span class="dc">○</span> Mark done</button>
                 </div>
                 <p class="soft">A quick primer on how data flies through the air, and how we keep bad actors from stealing it.</p>
                 
@@ -762,8 +828,119 @@
                         </div>
                     </div>
                 </div>
-                <div class="cnav" data-idx="10"></div>
+                <div class="cnav" data-idx="11"></div>
             </section>
+            
+            <!-- §13 BACKBONE -->
+            <section id="backbone" class="chapter gc" data-index="12" data-category="Advanced Concepts">
+                <div class="ch">
+                    <div class="chl">
+                        <div class="chn">13</div>
+                        <h2>The Physical Internet</h2>
+                    </div><button class="db" data-idx="12"><span class="dc">○</span> Mark done</button>
+                </div>
+                <p class="soft">The "Cloud" isn't actually in the sky. The internet is highly physical, made of massive wires spanning the globe.</p>
+                
+                <div class="g2 mt-m">
+                    <div class="pnl">
+                        <h3><span class="ai">🌊</span> Undersea Cables</h3>
+                        <p>Over 95% of international internet traffic travels through massive fiber-optic cables resting on the ocean floor. If you send an email from New York to London, it physically crosses the Atlantic Ocean via light pulses in a wire.</p>
+                    </div>
+                    <div class="pnl">
+                        <h3><span class="ai">🏢</span> ISPs & Tiers</h3>
+                        <p>Internet Service Providers (ISPs) connect you to the backbone. "Tier 3" ISPs are your local companies (like Comcast). They pay larger "Tier 1" providers (massive global telecom companies) for access to the worldwide backbone.</p>
+                    </div>
+                </div>
+
+                <div class="qw mt-m">
+                    <div class="qt"><span>⚡</span> Quick Check — Backbone</div>
+                    <div class="qpan">
+                        <div class="qi">
+                            <div class="qq">How does the vast majority of internet data travel between continents?</div>
+                            <div class="qo-wrap">
+                                <div class="qo" data-c="0">Satellites in Space</div>
+                                <div class="qo" data-c="1">Undersea Fiber-Optic Cables</div>
+                                <div class="qo" data-c="0">Wireless Radio Towers</div>
+                            </div>
+                            <div class="qfb"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cnav" data-idx="12"></div>
+            </section>
+
+            <!-- §14 THE CLOUD (NEW) -->
+            <section id="cloud" class="chapter gc" data-index="13" data-category="Advanced Concepts">
+                <div class="ch">
+                    <div class="chl">
+                        <div class="chn">14</div>
+                        <h2>The Cloud & Data Centers</h2>
+                    </div><button class="db" data-idx="13"><span class="dc">○</span> Mark done</button>
+                </div>
+                <div class="co cp">
+                    <div class="co-ico">☁️</div>
+                    <div class="co-bdy">
+                        <p><strong>There is no cloud, it's just someone else's computer.</strong></p>
+                        <p>When you save a photo to "The Cloud," it doesn't float in the air. It travels through the internet and lands on a massive physical hard drive inside a remote warehouse called a Data Center.</p>
+                    </div>
+                </div>
+                
+                <div class="g2 mt-m">
+                    <div class="pnl">
+                        <h3><span class="ai">🏭</span> Data Centers</h3>
+                        <p>Massive, highly secure warehouses filled with thousands of powerful Servers stacked in racks. They have giant air conditioners to stop the computers from melting, and massive backup generators in case of power outages.</p>
+                    </div>
+                    <div class="pnl">
+                        <h3><span class="ai">📦</span> Cloud Models</h3>
+                        <ul class="cl mt-s">
+                            <li><strong>SaaS (Software as a Service):</strong> You just use the app (e.g., Netflix, Gmail).</li>
+                            <li><strong>IaaS (Infrastructure as a Service):</strong> You rent the raw server hardware and build whatever you want (e.g., AWS, Microsoft Azure).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="qw mt-m">
+                    <div class="qt"><span>⚡</span> Quick Check — The Cloud</div>
+                    <div class="qpan">
+                        <div class="qi">
+                            <div class="qq">When you upload a document to Google Drive, where does that file actually go?</div>
+                            <div class="qo-wrap">
+                                <div class="qo" data-c="0">A satellite orbiting Earth</div>
+                                <div class="qo" data-c="1">A physical server in a remote Data Center</div>
+                                <div class="qo" data-c="0">It floats invisibly on the internet</div>
+                            </div>
+                            <div class="qfb"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cnav" data-idx="13"></div>
+            </section>
+
+            <!-- FOOTER CARD -->
+            <div class="gc" style="text-align: center; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 40px; border-color: var(--accent-glow);">
+                <div style="font-size: 2.5rem; margin-bottom: 5px; animation: pL 3s ease-in-out infinite;">🚀</div>
+                <h2 style="font-family: 'DM Serif Display', serif; font-size: 2rem; color: var(--text); letter-spacing: -0.02em;">Happy Networking!</h2>
+                <p class="soft" style="max-width: 450px;">I hope this interactive guide helped demystify the magic of how our digital world connects.</p>
+                
+                <div style="width: 60px; height: 3px; border-radius: 5px; background: linear-gradient(90deg, var(--accent), var(--accent2)); margin: 10px 0;"></div>
+                
+                <p style="font-size: 0.95rem; color: var(--text-2); font-weight: 500;">Created with ❤️ by <strong style="color: var(--text);">Raj Rathod</strong></p>
+                
+                <div style="display: flex; gap: 18px; margin-top: 8px;">
+                    <!-- LinkedIn Icon -->
+                    <a href="https://www.linkedin.com/in/raj-rathod-674078353/" target="_blank" title="LinkedIn" style="color: var(--accent); transition: transform 0.3s; display: inline-block;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <!-- GitHub Icon -->
+                    <a href="https://github.com/rajrathod07" target="_blank" title="GitHub" style="color: var(--text); transition: transform 0.3s; display: inline-block;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
 
         </main>
 
