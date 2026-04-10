@@ -2,7 +2,42 @@
     'use strict';
 
     /* ==========================================
-       1. THEME MANAGEMENT
+       0. INJECT THEME ANIMATION CSS
+       ========================================== */
+    const themeStyle = document.createElement('style');
+    themeStyle.textContent = `
+        /* View Transition API for Ripple Effect */
+        ::view-transition-old(root),
+        ::view-transition-new(root) {
+            animation: none;
+            mix-blend-mode: normal;
+        }
+        /* Always keep the NEW theme on top so it can expand over the old one */
+        ::view-transition-old(root) { z-index: 1; }
+        ::view-transition-new(root) { z-index: 2; }
+
+        /* Fallback smooth transition for older browsers */
+        .theme-transitioning * {
+            transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease !important;
+        }
+
+        /* Sun/Moon Icon Spin Animation */
+        #themeBtn, #fabTheme {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+        }
+        .icon-spin-out {
+            transform: scale(0.3) rotate(180deg) !important;
+            opacity: 0 !important;
+        }
+        .icon-spin-in {
+            transform: scale(1) rotate(0deg) !important;
+            opacity: 1 !important;
+        }
+    `;
+    document.head.appendChild(themeStyle);
+
+    /* ==========================================
+       1. THEME MANAGEMENT & ANIMATION
        ========================================== */
     const TK = 'nf-theme2'; 
     let dark = false;
@@ -11,17 +46,90 @@
         dark = d; 
         document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
         const ic = d ? '☀️' : '🌙';
-        document.getElementById('themeBtn').textContent = ic;
-        document.getElementById('fabTheme').textContent = ic;
+        
+        const headerBtn = document.getElementById('themeBtn');
+        const fabBtn = document.getElementById('fabTheme');
+        if(headerBtn) headerBtn.textContent = ic;
+        if(fabBtn) fabBtn.textContent = ic;
+        
         localStorage.setItem(TK, d ? 'dark' : 'light');
     }
     
     const sv = localStorage.getItem(TK);
     applyTheme(sv ? sv === 'dark' : window.matchMedia('(prefers-color-scheme:dark)').matches);
     
-    const toggleTheme = () => applyTheme(!dark);
-    document.getElementById('themeBtn').addEventListener('click', toggleTheme);
-    document.getElementById('fabTheme').addEventListener('click', toggleTheme);
+    function toggleTheme(e) {
+        const isDark = !dark;
+
+        // 1. Spin and fade the icon
+        const btns = [document.getElementById('themeBtn'), document.getElementById('fabTheme')].filter(Boolean);
+        btns.forEach(btn => {
+            btn.classList.add('icon-spin-out');
+            setTimeout(() => {
+                btn.classList.remove('icon-spin-out');
+                btn.classList.add('icon-spin-in');
+                setTimeout(() => btn.classList.remove('icon-spin-in'), 400);
+            }, 150); // swap icon at mid-point
+        });
+
+        // 2. Trigger the page background ripple effect
+        setTimeout(() => {
+            if (!document.startViewTransition) {
+                // Fallback: Smooth CSS crossfade for older browsers
+                document.documentElement.classList.add('theme-transitioning');
+                applyTheme(isDark);
+                setTimeout(() => document.documentElement.classList.remove('theme-transitioning'), 500);
+                return;
+            }
+
+            // Get click coordinates (default to top right if triggered without mouse)
+            const btnX = e && e.clientX ? e.clientX : window.innerWidth - 50;
+            const btnY = e && e.clientY ? e.clientY : 50;
+
+            const transition = document.startViewTransition(() => {
+                applyTheme(isDark);
+            });
+
+            transition.ready.then(() => {
+                let startX, startY, radius;
+
+                if (isDark) {
+                    // Light -> Dark: Expanding circle starts exactly from the clicked button
+                    startX = btnX;
+                    startY = btnY;
+                    radius = Math.hypot(
+                        Math.max(startX, window.innerWidth - startX), 
+                        Math.max(startY, window.innerHeight - startY)
+                    );
+                } else {
+                    // Dark -> Light: Expanding circle sweeps in from the absolute bottom right corner
+                    startX = window.innerWidth;
+                    startY = window.innerHeight;
+                    radius = Math.hypot(window.innerWidth, window.innerHeight);
+                }
+
+                const clipPath = [
+                    `circle(0px at ${startX}px ${startY}px)`,
+                    `circle(${radius}px at ${startX}px ${startY}px)`
+                ];
+                
+                // Animate the new theme sweeping over the old theme
+                document.documentElement.animate(
+                    { clipPath: clipPath },
+                    {
+                        duration: 800, // Smooth, slightly slower duration for a liquid feel
+                        easing: 'cubic-bezier(0.25, 1, 0.30, 1)', // Fluid easing curve
+                        pseudoElement: '::view-transition-new(root)'
+                    }
+                );
+            });
+        }, 100); // Slight delay to sync the background ripple with the icon spin
+    }
+    
+    const hBtn = document.getElementById('themeBtn');
+    const fBtn = document.getElementById('fabTheme');
+    if(hBtn) hBtn.addEventListener('click', toggleTheme);
+    if(fBtn) fBtn.addEventListener('click', toggleTheme);
     
     window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change', e => { 
         if (!localStorage.getItem(TK)) applyTheme(e.matches);
@@ -33,9 +141,9 @@
     window.addEventListener('load', () => {
         setTimeout(() => {
             const l = document.getElementById('ldr'); 
+            if(!l) return;
             l.style.transition = 'opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1)';
             l.classList.add('out');
-            
             setTimeout(() => { 
                 l.style.display = 'none'; 
                 document.querySelectorAll('.gc').forEach((c, i) => {
@@ -52,7 +160,7 @@
     const TOTAL = chapters.length;
     const chIds = chapters.map(c => c.id);
     const chTitles = chapters.map(c => c.querySelector('h2').textContent);
-    const NAV_H = () => parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 68;
+    const NAV_H = () => parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 62;
 
     function smoothScrollTo(yPos) {
         window.scrollTo({ top: yPos, behavior: 'smooth' });
@@ -61,7 +169,7 @@
     function scrollToElement(id) {
         const el = document.getElementById(id); 
         if (!el) return;
-        const top = el.getBoundingClientRect().top + window.scrollY - NAV_H() - 20;
+        const top = el.getBoundingClientRect().top + window.scrollY - NAV_H() - 40;
         smoothScrollTo(top);
     }
 
@@ -84,45 +192,51 @@
         cats[cat].push(c); 
     });
     
-    Object.entries(cats).forEach(([cat, items]) => {
-        const folder = document.createElement('div'); folder.className = 'nf';
-        const btn = document.createElement('button'); btn.className = 'fb open';
-        btn.innerHTML = `<span>${cat}</span><span class="fa">›</span>`;
-        btn.onclick = () => btn.classList.toggle('open');
-        
-        const fi = document.createElement('div'); fi.className = 'fi';
-        items.forEach(c => {
-            const a = document.createElement('a'); a.className = 'ni'; a.href = '#' + c.id; a.dataset.section = c.id;
-            a.innerHTML = `<span class="nd"></span>${c.querySelector('h2').textContent}`;
-            a.addEventListener('click', e => { e.preventDefault(); scrollToElement(c.id); });
-            fi.appendChild(a);
+    if(navTree) {
+        Object.entries(cats).forEach(([cat, items]) => {
+            const folder = document.createElement('div'); folder.className = 'nf';
+            const btn = document.createElement('button'); btn.className = 'fb open';
+            btn.innerHTML = `<span>${cat}</span><span class="fa">›</span>`;
+            btn.onclick = () => btn.classList.toggle('open');
+            
+            const fi = document.createElement('div'); fi.className = 'fi';
+            items.forEach(c => {
+                const a = document.createElement('a'); a.className = 'ni'; a.href = '#' + c.id; a.dataset.section = c.id;
+                a.innerHTML = `<span class="nd"></span>${c.querySelector('h2').textContent}`;
+                a.addEventListener('click', e => { e.preventDefault(); scrollToElement(c.id); });
+                fi.appendChild(a);
+            });
+            folder.appendChild(btn); folder.appendChild(fi); navTree.appendChild(folder);
         });
-        folder.appendChild(btn); folder.appendChild(fi); navTree.appendChild(folder);
-    });
+    }
 
     const botNav = document.getElementById('botNav');
-    const bIcons = ['⬡', '⇄', '◉', '⟿', '⊟', '🌍', '📍', '🎭', '🏢', '🕸️', '🥞', '🛡️', '🌊', '☁️']; 
-    chapters.forEach((c, i) => {
-        const a = document.createElement('a'); a.className = 'bni'; a.href = '#' + c.id; a.dataset.section = c.id;
-        let shortName = chTitles[i].split(' ')[0];
-        if(shortName === "Public") shortName = "NAT";
-        if(shortName === "The") shortName = chTitles[i].split(' ')[1] || "Net";
-        
-        a.innerHTML = `<span class="bic">${bIcons[i] || '·'}</span>${shortName}`;
-        a.addEventListener('click', e => { e.preventDefault(); scrollToElement(c.id); });
-        botNav.appendChild(a);
-    });
+    const bIcons = ['⬡', '⇄', '🔌', '⭐', '⟿', '↔️', '📦', '🏷️', '🎭', '✂️', '🎫', '📈', '🥞', '📶', '🌊', '☁️', '💡', '🧱', '🚇', '🏓']; 
+    
+    if(botNav) {
+        chapters.forEach((c, i) => {
+            const a = document.createElement('a'); a.className = 'bni'; a.href = '#' + c.id; a.dataset.section = c.id;
+            let shortName = chTitles[i].split(' ')[0];
+            if(shortName === "Public") shortName = "NAT";
+            if(shortName === "The") shortName = chTitles[i].split(' ')[1] || "Net";
+            
+            a.innerHTML = `<span class="bic">${bIcons[i] || '·'}</span>${shortName}`;
+            a.addEventListener('click', e => { e.preventDefault(); scrollToElement(c.id); });
+            botNav.appendChild(a);
+        });
+    }
 
     const outlineList = document.getElementById('outlineList');
-    chapters.forEach((c, i) => {
-        const a = document.createElement('a'); a.className = 'oli'; a.href = '#' + c.id; a.dataset.section = c.id;
-        const num = (i + 1).toString().padStart(2, '0');
-        a.innerHTML = `<span class="oln">${num}</span>${chTitles[i]}`;
-        a.addEventListener('click', e => { e.preventDefault(); scrollToElement(c.id); });
-        outlineList.appendChild(a);
-    });
+    if(outlineList) {
+        chapters.forEach((c, i) => {
+            const a = document.createElement('a'); a.className = 'oli'; a.href = '#' + c.id; a.dataset.section = c.id;
+            const num = (i + 1).toString().padStart(2, '0');
+            a.innerHTML = `<span class="oln">${num}</span>${chTitles[i]}`;
+            a.addEventListener('click', e => { e.preventDefault(); scrollToElement(c.id); });
+            outlineList.appendChild(a);
+        });
+    }
 
-    // Prev/Next buttons
     document.querySelectorAll('.cnav').forEach(nav => {
         const idx = +nav.dataset.idx;
         const prev = idx > 0
@@ -141,16 +255,19 @@
     /* ==========================================
        5. ORGANIC LERPING (Scroll + Blobs)
        ========================================== */
-    const sBar = document.getElementById('sProgress');
-    const fabTop = document.getElementById('fabTop');
+    const sBarTop = document.getElementById('sProgress'); 
+    const fabTopBtn = document.getElementById('fabTop');
     let scrollTgt = 0, scrollCur = 0;
 
     function animateScroll() {
         const d = document.documentElement;
-        scrollTgt = (d.scrollTop / (d.scrollHeight - d.clientHeight)) * 100;
+        const maxScroll = Math.max(1, d.scrollHeight - d.clientHeight); 
+        scrollTgt = (d.scrollTop / maxScroll) * 100;
         scrollCur += (scrollTgt - scrollCur) * 0.08; 
-        sBar.style.width = Math.max(0, Math.min(scrollCur, 100)) + '%';
-        fabTop.classList.toggle('on', scrollCur > 8);
+        
+        if(sBarTop) sBarTop.style.width = Math.max(0, Math.min(scrollCur, 100)) + '%';
+        if(fabTopBtn) fabTopBtn.classList.toggle('on', scrollCur > 8);
+        
         requestAnimationFrame(animateScroll);
     }
     animateScroll(); 
@@ -175,18 +292,39 @@
     animateBlobs(); 
 
     /* ==========================================
-       6. CHAPTER OBSERVATION
+       6. CHAPTER OBSERVATION (Scroll Spy)
        ========================================== */
     function allNavAs() { return document.querySelectorAll('.ni,.bni,.oli'); }
+    
     function setActive(id) { 
-        allNavAs().forEach(a => a.classList.toggle('active', a.dataset.section === id)); 
+        allNavAs().forEach(a => {
+            if(a.dataset.section) {
+                a.classList.toggle('active', a.dataset.section === id);
+                a.classList.toggle('cur', a.dataset.section === id); 
+            }
+        }); 
     }
     
+    window.addEventListener('scroll', () => {
+        let currentId = chapters[0].id;
+        const scrollPos = window.scrollY + NAV_H() + 150; 
+        
+        for (let c of chapters) {
+            if (c.offsetTop <= scrollPos) {
+                currentId = c.id;
+            }
+        }
+        setActive(currentId);
+    }, { passive: true });
+
     const secObs = new IntersectionObserver(entries => {
         entries.forEach(e => { 
-            if (e.isIntersecting) setActive(e.target.id);
+            if (e.isIntersecting) {
+                e.target.classList.add('vis');
+                secObs.unobserve(e.target);
+            }
         });
-    }, { threshold: 0.15, rootMargin: `-${NAV_H() + 20}px 0px -50% 0px` });
+    }, { threshold: 0.1 });
     
     chapters.forEach(s => secObs.observe(s));
 
@@ -194,51 +332,43 @@
        7. DYNAMIC CELEBRATION INJECTION
        ========================================== */
     function injectCelebration() {
-        // Inject CSS for the animation so you don't have to touch style.css
         const style = document.createElement('style');
         style.textContent = `
-            #nfFinish { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); opacity: 0; pointer-events: none; transition: opacity 0.6s ease; overflow: hidden; }
+            #nfFinish { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); opacity: 0; pointer-events: none; transition: opacity 0.5s ease; overflow: hidden; }
             #nfFinish.show { opacity: 1; pointer-events: all; }
-            
-            /* Rings */
-            .nf-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; border: 2px solid var(--accent); opacity: 0; }
+            .nf-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; border: 2px solid var(--accent); opacity: 0; pointer-events: none;}
             #nfFinish.show .nf-ring-1 { animation: nfRing 2s ease-out forwards; }
             #nfFinish.show .nf-ring-2 { animation: nfRing 2.5s ease-out 0.2s forwards; border-color: var(--accent2); }
             #nfFinish.show .nf-ring-3 { animation: nfRing 3s ease-out 0.4s forwards; border-color: var(--accent3); }
             @keyframes nfRing { 0% { width: 0; height: 0; opacity: 1; border-width: 15px; } 100% { width: 150vw; height: 150vw; opacity: 0; border-width: 1px; } }
-            
-            /* Side Bounces */
-            .nf-bounce { position: absolute; font-size: 6rem; opacity: 0; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)); }
+            .nf-bounce { position: absolute; font-size: 6rem; opacity: 0; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)); pointer-events: none;}
             .nf-bounce-l { top: 50%; left: -150px; }
             .nf-bounce-r { top: 50%; right: -150px; }
             #nfFinish.show .nf-bounce-l { animation: nfSpringL 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s forwards; }
             #nfFinish.show .nf-bounce-r { animation: nfSpringR 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.7s forwards; }
             @keyframes nfSpringL { 0% { left: -150px; opacity: 0; transform: translateY(-50%) rotate(-45deg) scale(0.5); } 100% { left: 10%; opacity: 1; transform: translateY(-50%) rotate(15deg) scale(1); } }
             @keyframes nfSpringR { 0% { right: -150px; opacity: 0; transform: translateY(-50%) rotate(45deg) scale(0.5); } 100% { right: 10%; opacity: 1; transform: translateY(-50%) rotate(-15deg) scale(1); } }
-            
-            /* Center Card */
-            .nf-card { text-align: center; z-index: 10; transform: scale(0.5) translateY(50px); opacity: 0; background: var(--panel); border: 1px solid var(--glass-border); padding: 50px 40px; border-radius: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); max-width: 500px; width: 90%; }
-            #nfFinish.show .nf-card { animation: nfPop 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.9s forwards; }
+            .nf-card { text-align: center; z-index: 10; transform: scale(0.8) translateY(30px); opacity: 0; background: #ffffff; padding: 12px; border-radius: 8px; box-shadow: 0 25px 60px rgba(0,0,0,0.4); max-width: 550px; width: 90%; color: #111; }
+            .nf-card-inner { border: 2px solid rgba(79, 99, 240, 0.3); outline: 1px solid rgba(79, 99, 240, 0.1); outline-offset: -4px; padding: 40px 30px 45px; border-radius: 4px; background: #fffafa; }
+            #nfFinish.show .nf-card { animation: nfPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.9s forwards; }
             @keyframes nfPop { to { transform: scale(1) translateY(0); opacity: 1; } }
-            
-            .nf-title { font-family: 'DM Serif Display', serif; font-size: 2.8rem; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px; line-height: 1.1; }
-            .nf-msg { font-size: 1.05rem; color: var(--text-2); line-height: 1.7; margin-bottom: 35px; }
-            
-            .nf-btn { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; border: none; padding: 14px 36px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s; box-shadow: 0 8px 25px var(--accent-glow); }
-            .nf-btn:hover { transform: scale(1.08) translateY(-3px); box-shadow: 0 15px 35px var(--accent-glow); }
-            
-            /* Mobile fixes for bounces */
+            .nf-cert-logo { font-size: 2.8rem; margin-bottom: 15px; }
+            .nf-title { font-family: 'DM Serif Display', serif; font-size: 2.6rem; color: #111; margin-bottom: 18px; line-height: 1.1; letter-spacing: -0.02em; }
+            .nf-cert-line { width: 80px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); margin: 0 auto 20px; border-radius: 2px;}
+            .nf-msg { font-size: 1.05rem; color: #444; line-height: 1.7; margin-bottom: 35px; font-family: 'DM Sans', sans-serif; }
+            .nf-btn { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; border: none; padding: 12px 32px; border-radius: 50px; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: transform 0.3s var(--ease), box-shadow 0.3s; box-shadow: 0 8px 25px var(--accent-glow); font-family: 'DM Sans', sans-serif;}
+            .nf-btn:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 15px 35px var(--accent-glow); }
             @media(max-width: 900px) { 
                 .nf-bounce { font-size: 4rem; }
                 .nf-bounce-l { left: 5%; top: 15%; animation-name: nfSpringLMob !important; } 
                 .nf-bounce-r { right: 5%; top: 85%; animation-name: nfSpringRMob !important; } 
                 @keyframes nfSpringLMob { 0% { top: -100px; opacity: 0; } 100% { top: 12%; opacity: 1; transform: rotate(15deg); } } 
                 @keyframes nfSpringRMob { 0% { top: 120%; opacity: 0; } 100% { top: 88%; opacity: 1; transform: rotate(-15deg); } } 
+                .nf-card-inner { padding: 30px 20px 35px; } .nf-title { font-size: 2.2rem; } .nf-msg { font-size: 0.95rem; }
             }
         `;
         document.head.appendChild(style);
 
-        // Inject HTML
         const overlay = document.createElement('div');
         overlay.id = 'nfFinish';
         overlay.innerHTML = `
@@ -248,19 +378,18 @@
             <div class="nf-bounce nf-bounce-l">🚀</div>
             <div class="nf-bounce nf-bounce-r">🏆</div>
             <div class="nf-card">
-                <div class="nf-title">Course Complete!</div>
-                <div class="nf-msg">Incredible work! You've successfully mastered the foundations of computer networking.<br><br>You now understand how the digital world routes data, connects devices, and stays secure. Keep building, keep learning, and stay curious!</div>
-                <button class="nf-btn" id="nfCloseBtn">Awesome!</button>
+                <div class="nf-card-inner">
+                    <div class="nf-cert-logo">🌐</div>
+                    <div class="nf-title">Course Complete</div>
+                    <div class="nf-cert-line"></div>
+                    <div class="nf-msg">This acknowledges that you have successfully mastered the foundational concepts of computer networking, digital infrastructure, and basic security.<br><br><strong>Well done!</strong></div>
+                    <button class="nf-btn" id="nfCloseBtn">Continue Journey</button>
+                </div>
             </div>
         `;
         document.body.appendChild(overlay);
-
-        document.getElementById('nfCloseBtn').addEventListener('click', () => {
-            overlay.classList.remove('show');
-        });
+        document.getElementById('nfCloseBtn').addEventListener('click', () => overlay.classList.remove('show'));
     }
-
-    // Inject immediately on load
     injectCelebration();
 
     /* ==========================================
@@ -272,9 +401,14 @@
     function saveDone() { localStorage.setItem(DK, JSON.stringify([...done])); }
     
     function updateUI() {
-        const c = done.size, p = (c / TOTAL) * 100;
-        document.getElementById('pFill').style.width = p + '%';
-        document.getElementById('pCount').textContent = `${c} / ${TOTAL}`;
+        const c = done.size;
+        const p = (c / TOTAL) * 100;
+        
+        const pFillEl = document.getElementById('pFill');
+        if(pFillEl) pFillEl.style.width = p + '%';
+        
+        const pCountEl = document.getElementById('pCount');
+        if(pCountEl) pCountEl.textContent = `${c} / ${TOTAL}`;
         
         chapters.forEach(ch => {
             const idx = +ch.dataset.index;
@@ -283,13 +417,12 @@
             if (nd) nd.classList.toggle('dn', done.has(idx));
         });
 
-        // TRIGGER THE CELEBRATION
         if (c === TOTAL && !localStorage.getItem('nf-celebrated')) {
             setTimeout(() => {
-                document.getElementById('nfFinish').classList.add('show');
-                // Save flag so it doesn't pop up every time they refresh the page
+                const finishModal = document.getElementById('nfFinish');
+                if(finishModal) finishModal.classList.add('show');
                 localStorage.setItem('nf-celebrated', 'true');
-            }, 800); // Waits for the button "bounce" animation to finish first
+            }, 800); 
         }
     }
 
@@ -303,11 +436,11 @@
             if (done.has(idx)) { 
                 done.delete(idx); 
                 this.classList.remove('mk'); 
-                dc.textContent = '○'; 
+                if(dc) dc.textContent = '○'; 
             } else { 
                 done.add(idx); 
                 this.classList.add('mk'); 
-                dc.textContent = '✓'; 
+                if(dc) dc.textContent = '✓'; 
             }
             saveDone(); 
             updateUI();
@@ -316,7 +449,11 @@
 
     done.forEach(idx => {
         const b = document.querySelector(`.db[data-idx="${idx}"]`);
-        if (b) { b.classList.add('mk'); b.querySelector('.dc').textContent = '✓'; }
+        if (b) { 
+            b.classList.add('mk'); 
+            const dc = b.querySelector('.dc');
+            if(dc) dc.textContent = '✓'; 
+        }
     });
     updateUI();
 
@@ -341,14 +478,17 @@
                 opt.animate(elegantAnim, elegantTiming);
 
                 const fb = wrap.closest('.qi').querySelector('.qfb');
-                fb.className = 'qfb show ' + (correct ? 'qf-ok' : 'qf-ng');
-                fb.textContent = correct 
-                    ? '✓ Correct! Excellent reasoning.' 
-                    : '✗ Not quite — the correct concept is now highlighted for you.';
+                if(fb) {
+                    fb.className = 'qfb show ' + (correct ? 'qf-ok' : 'qf-ng');
+                    fb.innerHTML = correct 
+                        ? '<strong>✓ Correct!</strong> Excellent reasoning.' 
+                        : '<strong>✗ Not quite</strong> — the correct concept is now highlighted for you.';
+                }
                 
                 if (!correct) {
                     wrap.animate(softShakeAnim, { duration: 400, easing: 'ease-in-out' });
-                    wrap.querySelector('[data-c="1"]')?.classList.add('ok'); 
+                    const rightAnswer = wrap.querySelector('[data-c="1"]');
+                    if(rightAnswer) rightAnswer.classList.add('ok'); 
                 }
             });
         });
@@ -359,12 +499,18 @@
        ========================================== */
     const sInp = document.getElementById('sInput');
     const sCl = document.getElementById('sClear');
-    const noRes = document.getElementById('noRes');
+    const noResDom = document.getElementById('noRes');
     
     function esc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
     
     function stripAndReset(el) { 
-        el.querySelectorAll('mark').forEach(m => m.replaceWith(document.createTextNode(m.textContent)));
+        el.querySelectorAll('mark[data-search-mark="true"]').forEach(m => {
+            const parent = m.parentNode;
+            while (m.firstChild) parent.insertBefore(m.firstChild, m);
+            parent.removeChild(m);
+        });
+        
+        el.normalize(); 
         el.querySelectorAll('.acb').forEach(a => { a.style.maxHeight = ''; a.style.opacity = ''; });
         el.querySelectorAll('.aci').forEach(a => { a.style.borderColor = ''; });
     }
@@ -383,12 +529,14 @@
                     f.appendChild(document.createTextNode(t.slice(l, m.index))); 
                     const mk = document.createElement('mark'); 
                     mk.textContent = m[0]; 
+                    mk.setAttribute('data-search-mark', 'true'); 
                     
-                    mk.style.background = 'rgba(129, 140, 248, 0.2)';
+                    mk.style.background = 'rgba(255, 193, 7, 0.3)'; 
                     mk.style.color = 'inherit';
                     mk.style.borderRadius = '4px';
-                    mk.style.padding = '1px 4px';
-                    mk.style.boxShadow = '0 0 8px rgba(129, 140, 248, 0.3)';
+                    mk.style.padding = '0 4px';
+                    mk.style.boxShadow = '0 0 6px rgba(255, 193, 7, 0.4)';
+                    mk.style.borderBottom = '2px solid #ffc107';
 
                     f.appendChild(mk); 
                     if (onFirstMatch) onFirstMatch(mk);
@@ -407,13 +555,16 @@
                 }
 
                 n.replaceWith(f);
-            } else if (n.nodeType === 1 && !['SCRIPT', 'STYLE', 'MARK', 'SVG'].includes(n.tagName) && !n.closest('svg')) {
+            } 
+            else if (n.nodeType === 1 && !['SCRIPT', 'STYLE', 'MARK', 'BUTTON', 'SVG'].includes(n.tagName) && !n.closest('svg') && !n.classList.contains('qo-wrap')) {
                 hilite(n, rx, onFirstMatch);
             }
         });
     }
 
     function doSearch(q) {
+        if(!sInp || !sCl) return;
+        
         sCl.classList.toggle('on', q.length > 0);
         
         chapters.forEach(c => { 
@@ -424,29 +575,30 @@
 
         if (!q.trim()) {
             setTimeout(() => chapters.forEach(c => c.classList.add('vis')), 10);
-            noRes.classList.remove('show'); 
+            if(noResDom) noResDom.classList.remove('show'); 
             return;
         }
 
         const rx = new RegExp(esc(q), 'gi'); 
-        let any = false;
+        let anyMatch = false;
         let firstMatchNode = null;
 
         chapters.forEach(c => {
             if (rx.test(c.textContent)) { 
-                c.style.display = ''; 
+                c.style.display = 'block'; 
                 c.classList.add('vis'); 
+                
                 hilite(c, rx, (node) => {
                     if (!firstMatchNode) firstMatchNode = node;
                 });
-                any = true; 
+                anyMatch = true; 
             } else { 
                 c.style.display = 'none'; 
                 c.classList.remove('vis'); 
             }
         });
         
-        noRes.classList.toggle('show', !any);
+        if(noResDom) noResDom.classList.toggle('show', !anyMatch);
         
         if (firstMatchNode) {
             setTimeout(() => {
@@ -457,15 +609,19 @@
     }
 
     let searchTimer; 
-    sInp.addEventListener('input', function () { 
-        clearTimeout(searchTimer); 
-        searchTimer = setTimeout(() => doSearch(this.value), 250); 
-    });
+    if(sInp) {
+        sInp.addEventListener('input', function () { 
+            clearTimeout(searchTimer); 
+            searchTimer = setTimeout(() => doSearch(this.value), 250); 
+        });
+    }
     
-    sCl.addEventListener('click', () => { 
-        sInp.value = ''; 
-        doSearch(''); 
-        sInp.focus(); 
-    });
+    if(sCl) {
+        sCl.addEventListener('click', () => { 
+            sInp.value = ''; 
+            doSearch(''); 
+            sInp.focus(); 
+        });
+    }
 
 })();
