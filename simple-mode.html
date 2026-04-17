@@ -11,28 +11,28 @@
            TACTILE / PRINT MODE CSS
            ========================================== */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
+
         :root {
             /* Paper & Ink Theme */
             --bg: #f4f0eb; /* Rough paper off-white */
-            --surface: #ffffff; 
-            --surface2: #e8e4db; 
+            --surface: #ffffff;
+            --surface2: #e8e4db;
             --border: #1a1a1a; /* Heavy ink border */
-            --text: #1a1a1a; 
-            --text2: #4a4a4a; 
+            --text: #1a1a1a;
+            --text2: #4a4a4a;
             --text3: #6a6a6a;
-            
+
             /* Earthy / Tactile Accents */
             --accent: #d95c50; /* Terracotta red */
-            --accent-bg: #fceceb; 
+            --accent-bg: #fceceb;
             --accent-text: #8a2b22;
-            
+
             --teal: #2f7a62; --teal-bg: #e1f0ec;
             --amber: #b87311; --amber-bg: #fdf3e1;
             --red: #c93a3a; --red-bg: #fcebeb;
-            
+
             --r: 0px; /* Sharp corners */
-            --r-sm: 0px; 
+            --r-sm: 0px;
             --nav-h: 68px; /* Height of top nav */
             --hard-shadow: 4px 4px 0px var(--border);
             --hard-shadow-hover: 2px 2px 0px var(--border);
@@ -40,27 +40,27 @@
 
         /* Dark Mode (Blueprint / Blueprint Inverted) */
         [data-theme="dark"] {
-            --bg: #161616; 
-            --surface: #222222; 
-            --surface2: #2a2a2a; 
-            --border: #e0e0e0; 
-            --text: #f0f0f0; 
-            --text2: #b0b0b0; 
+            --bg: #161616;
+            --surface: #222222;
+            --surface2: #2a2a2a;
+            --border: #e0e0e0;
+            --text: #f0f0f0;
+            --text2: #b0b0b0;
             --text3: #808080;
-            --accent: #e87a6f; 
-            --accent-bg: #3a1c1a; 
+            --accent: #e87a6f;
+            --accent-bg: #3a1c1a;
             --accent-text: #fceceb;
             --teal: #4db393; --teal-bg: #123328;
             --amber: #e69d35; --amber-bg: #3b2304;
             --red: #e85a5a; --red-bg: #3d1010;
         }
-        
-        body { 
-            font-family: 'DM Sans', system-ui, sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            font-size: 15px; 
-            line-height: 1.6; 
+
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 15px;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             overflow-y: scroll;
         }
@@ -69,10 +69,10 @@
            GLOBAL LAYOUT (TOP NAV + 3 COLUMNS)
            ========================================== */
         .layout-wrapper { display: flex; flex-direction: column; min-height: 100vh; }
-        
+
         /* Sticky Top Nav */
         .top-nav { position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; height: var(--nav-h); background: var(--surface); border-bottom: 2px solid var(--border); box-shadow: 0 4px 0 var(--border); }
-        
+
         .brand { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--text); text-decoration: none; display: flex; align-items: baseline; gap: 8px;}
         .brand span { color: var(--accent); }
         .brand-sub { font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 5px; }
@@ -93,7 +93,7 @@
 
         /* 3-Column Grid - INCREASED MAX WIDTH FOR LAPTOPS */
         .app { display: grid; grid-template-columns: 280px 1fr 280px; max-width: 1650px; margin: 0 auto; width: 100%; background: var(--bg); flex: 1; align-items: start; border-left: 2px solid var(--border); border-right: 2px solid var(--border); }
-        
+
         /* Sidebars */
         .sidebar { position: sticky; top: var(--nav-h); height: calc(100vh - var(--nav-h)); overflow-y: auto; padding: 30px 20px; background: var(--surface); display: flex; flex-direction: column;}
         .sidebar::-webkit-scrollbar { width: 4px; }
@@ -111,7 +111,7 @@
         .nf.open .fa { transform: rotate(90deg); color: var(--accent); }
         .nf .fi { display: none; padding: 5px 5px 5px 15px; border-left: 2px dashed var(--border); margin-left: 10px; }
         .nf .fb.open + .fi { display: block; }
-        
+
         .ni { display: block; padding: 6px 10px; margin-bottom: 4px; color: var(--text2); font-size: 13px; font-weight: 500; text-decoration: none; transition: 0.1s; border: 2px solid transparent; }
         .ni:hover { background: var(--surface2); color: var(--text); border: 2px solid var(--border); }
         .ni.active, .ni.cur { background: var(--accent-bg); color: var(--accent-text); border: 2px solid var(--accent); font-weight: 600; box-shadow: 2px 2px 0 var(--accent); }
@@ -136,43 +136,43 @@
         .pi h1 { font-family: 'DM Serif Display', serif; font-size: 46px; line-height: 1.1; color: var(--text); margin-bottom: 15px; }
         .pi em { color: var(--accent); font-style: normal; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
         .pi p { color: var(--text2); font-size: 18px; max-width: 700px; font-weight: 500; }
-        
+
         #noRes { display: none; text-align: center; padding: 40px; background: var(--surface2); border: 2px dashed var(--border); font-weight: bold; margin-bottom: 30px; }
         #noRes.show { display: block; }
-        
+
         /* Chapters */
         .chapter { margin-bottom: 60px; padding-bottom: 50px; border-bottom: 2px solid var(--border); opacity: 0; transform: translateY(10px); transition: opacity 0.5s, transform 0.5s; }
         .chapter.vis { opacity: 1; transform: translateY(0); }
-        
+
         .ch { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 25px; border-bottom: 2px solid var(--text); padding-bottom: 15px; gap: 20px;}
         .chl h2 { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--text); line-height: 1.2;}
         .chn { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.05em; display: block; margin-bottom: 5px; }
-        
+
         /* Mark Done Button */
         .db { background: var(--surface); border: 2px solid var(--border); padding: 8px 16px; color: var(--text); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.1s; box-shadow: var(--hard-shadow); display: flex; align-items: center; gap: 8px; white-space: nowrap;}
         .db:hover { transform: translate(2px, 2px); box-shadow: var(--hard-shadow-hover); background: var(--surface2); }
         .db.mk { background: var(--accent); color: var(--surface); box-shadow: var(--hard-shadow); }
         .db.mk:hover { transform: translate(2px, 2px); box-shadow: var(--hard-shadow-hover); }
-        
+
         .soft { color: var(--text2); margin-bottom: 25px; font-size: 16px; font-weight: 500; }
-        
+
         /* Panels */
         .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
         @media(max-width: 1100px) { .g2 { grid-template-columns: 1fr; } }
-        
+
         .pnl, .co { background: var(--surface); border: 2px solid var(--border); padding: 24px; box-shadow: var(--hard-shadow); }
         .pnl h3 { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; border-bottom: 1px dashed var(--border); padding-bottom: 8px; }
-        .ai { font-size: 18px; filter: grayscale(100%) contrast(200%); } 
+        .ai { font-size: 18px; filter: grayscale(100%) contrast(200%); }
         .pnl p, .pnl li, .co p { font-size: 15px; color: var(--text); margin-bottom: 8px;}
         .cl { padding-left: 20px; margin-top: 12px; }
         .cl li { margin-bottom: 8px; }
         .cl li::marker { font-weight: bold; color: var(--accent); }
         mark { background: transparent; border: 2px solid var(--accent); color: var(--text); padding: 0 4px; font-weight: 600; box-shadow: 2px 2px 0 var(--accent); }
-        
+
         /* Callout */
         .co { display: flex; gap: 20px; background: var(--surface2); align-items: flex-start;}
         .co-ico { font-size: 28px; filter: grayscale(100%); margin-top: 2px;}
-        
+
         /* Accordions */
         .acc { border: 2px solid var(--border); background: var(--surface); margin-bottom: 24px; box-shadow: var(--hard-shadow); }
         .aci { border-bottom: 2px solid var(--border); }
@@ -202,7 +202,7 @@
         .qfb.show { display: block; }
         .qf-ok { background: var(--teal-bg); }
         .qf-ng { background: var(--red-bg); }
-        
+
         /* Chapter Navigation */
         .cnav { display: flex; justify-content: space-between; margin-top: 40px; }
         .cnb { padding: 12px 24px; border: 2px solid var(--border); font-size: 13px; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; background: var(--surface); transition: 0.1s; text-decoration: none; box-shadow: var(--hard-shadow); }
@@ -210,7 +210,7 @@
         .cnb.next { background: var(--border); color: var(--surface); }
         .cnb.next:hover { background: var(--text2); }
         .cnb.ghost { opacity: 0; pointer-events: none; }
-        
+
         /* Flow specific UI */
         .flg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 20px; }
         @media(max-width: 1100px) { .flg { grid-template-columns: 1fr; } }
@@ -228,17 +228,17 @@
         @keyframes moveR { 0% { left: -30%; } 100% { left: 100%; } }
         @keyframes moveL { 0% { right: -30%; } 100% { right: 100%; } }
         @keyframes moveB { 0% { left: -30%; } 45% { left: 100%; } 50% { left: 100%; } 95% { left: -30%; } 100% { left: -30%; } }
-        
+
         /* Global loader */
         #ldr { position: fixed; inset: 0; background: var(--bg); z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease; border: 10px solid var(--border); }
         #ldr.out { opacity: 0; pointer-events: none; }
         .ldr-brand { font-family: 'DM Serif Display', serif; font-size: 48px; color: var(--text); margin-bottom: 10px;}
         .ldr-brand span { color: var(--accent); }
         .ldr-sub { font-size: 12px; font-weight: bold; color: var(--text3); text-transform: uppercase; letter-spacing: 0.2em; border-top: 2px solid var(--border); padding-top: 10px;}
-        
+
         /* Top scroll progress */
         #sProgress { position: fixed; top: var(--nav-h); left: 0; height: 4px; background: var(--accent); z-index: 999; width: 0%; transition: width 0.1s linear; }
-        
+
         /* FAB */
         #fabTop { position: fixed; bottom: 30px; right: 30px; background: var(--surface); border: 2px solid var(--border); width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; pointer-events: none; transition: 0.2s; box-shadow: var(--hard-shadow); color: var(--text); z-index: 900; font-weight: bold; font-size: 20px;}
         #fabTop.on { opacity: 1; pointer-events: all; }
@@ -253,15 +253,15 @@
             .rs { display: none; } /* Hide outline sidebar to give center column maximum space */
             .main { padding: 40px 50px; }
         }
-        
+
         /* Mobile */
         @media (max-width: 850px) {
             .top-nav { flex-wrap: wrap; height: auto; padding: 15px 20px; gap: 15px; }
             .sw { width: 100%; order: 3; } /* Search drops to full width on mobile */
-            
+
             .app { grid-template-columns: 1fr; border-left: none; border-right: none; }
             .sidebar { position: relative; top: 0; height: auto; border-right: none; border-bottom: 2px solid var(--border); padding: 20px; }
-            
+
             .main { padding: 30px 20px; }
             .ch { flex-direction: column; align-items: flex-start; }
             .pi h1 { font-size: 36px; }
@@ -274,12 +274,12 @@
         <div class="ldr-brand">Net<span>Flow</span></div>
         <div class="ldr-sub">Print Edition</div>
     </div>
-    
+
     <div class="layout-wrapper">
-        
+
         <header class="top-nav">
             <a href="#" class="brand">Net<span>Flow</span> <span class="brand-sub">Print Edition</span></a>
-            
+
             <div class="sw">
                 <span class="si">⌕</span>
                 <input type="text" id="sInput" placeholder="Search concepts…" autocomplete="off">
@@ -288,14 +288,14 @@
 
             <div class="nav-actions">
                 <button class="neo-btn" id="themeBtn" title="Toggle Theme">🌙</button>
-                <a href="index.html" class="neo-btn" title="Return to Glass UI">✨ Design</a>
+                <a href="index.html" class="neo-btn" title="Return to Glass UI">✨ Morden UI</a>
             </div>
         </header>
 
         <div id="sProgress"></div>
 
         <div class="app">
-            
+
             <aside class="sidebar ls" id="leftSidebar">
                 <div class="sb-title">Chapters</div>
                 <nav id="navTree"></nav>
@@ -311,7 +311,7 @@
                     <h1>Learn <em>Networking</em><br>Fundamentals</h1>
                     <p>A fluid, comprehensive guide taking you from the absolute basics of data transfer to advanced global infrastructure and cybersecurity. Hover elements to explore.</p>
                 </div>
-                
+
                 <div id="noRes">
                     <h3>Nothing found</h3>
                     <p>Try "router", "protocol", or "duplex"</p>
@@ -1215,19 +1215,37 @@
                     <div class="cnav" data-idx="19"></div>
                 </section>
 
-                <div class="gc" style="text-align: center; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; margin-top: 40px;">
-                    <h2 style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--text);">Happy Networking!</h2>
-                    <p class="soft" style="max-width: 450px; margin-top: 10px;">I hope this fully comprehensive guide helped demystify the incredible engineering that connects our digital world.</p>
+ <div class="gc" style="text-align: center; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 40px; border-color: var(--accent-glow);">
+                <div style="font-size: 2.5rem; margin-bottom: 5px; animation: pL 3s ease-in-out infinite;">🚀</div>
+                <h2 style="font-family: 'DM Serif Display', serif; font-size: 2rem; color: var(--text); letter-spacing: -0.02em;">Happy Networking!</h2>
+                <p class="soft" style="max-width: 450px;">I hope this fully comprehensive guide helped demystify the incredible engineering that connects our digital world.</p>
+
+                <div style="width: 60px; height: 3px; border-radius: 5px; background: linear-gradient(90deg, var(--accent), var(--accent2)); margin: 10px 0;"></div>
+
+                <p style="font-size: 0.95rem; color: var(--text-2); font-weight: 500;">Created with ❤️ by <strong style="color: var(--text);">Raj Rathod</strong></p>
+
+                <div style="display: flex; gap: 18px; margin-top: 8px;">
+                    <a href="https://www.linkedin.com/in/raj-rathod-674078353/" target="_blank" title="LinkedIn" style="color: var(--accent); transition: transform 0.3s; display: inline-block;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/rajrathod07" target="_blank" title="GitHub" style="color: var(--text); transition: transform 0.3s; display: inline-block;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
                 </div>
+            </div>
 
             </main>
 
             <aside class="sidebar rs">
                 <div class="sb-title">On This Page</div>
-                
+
                 <div id="outlineList"></div>
             </aside>
-            
+
         </div>
     </div>
 
