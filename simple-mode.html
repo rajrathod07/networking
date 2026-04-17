@@ -1,0 +1,620 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f9f8f6;--surface:#ffffff;--surface2:#f4f3f0;--border:rgba(0,0,0,0.08);
+  --text:#1a1a18;--text2:#5a5955;--text3:#9a9894;
+  --accent:#5344b7;--accent-bg:#eeedfe;--accent-text:#3c3489;
+  --teal:#0f6e56;--teal-bg:#e1f5ee;
+  --amber:#854f0b;--amber-bg:#faeeda;
+  --red:#a32d2d;--red-bg:#fcebeb;
+  --green:#3b6d11;--green-bg:#eaf3de;
+  --coral:#993c1d;--coral-bg:#faece7;
+  --r:10px;--r-sm:6px;--shadow:0 1px 3px rgba(0,0,0,0.07),0 4px 12px rgba(0,0,0,0.04);
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1c1c1a;--surface:#252523;--surface2:#2e2e2b;--border:rgba(255,255,255,0.08);
+    --text:#f0efe8;--text2:#a8a79f;--text3:#6a6964;
+    --accent:#afa9ec;--accent-bg:#26215c;--accent-text:#cecbf6;
+    --teal:#5dcaa5;--teal-bg:#04342c;
+    --amber:#ef9f27;--amber-bg:#412402;
+    --red:#e24b4a;--red-bg:#501313;
+    --green:#97c459;--green-bg:#173404;
+    --coral:#f0997b;--coral-bg:#4a1b0c;
+  }
+}
+body{font-family:var(--font-sans,system-ui,sans-serif);background:var(--bg);color:var(--text);font-size:15px;line-height:1.65}
+
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh;max-width:1100px;margin:0 auto}
+
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;border-right:0.5px solid var(--border);padding:20px 0;background:var(--surface)}
+.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.sb-brand{padding:0 20px 20px;border-bottom:0.5px solid var(--border);margin-bottom:16px}
+.sb-logo{font-size:18px;font-weight:500;color:var(--text);letter-spacing:-0.02em}
+.sb-logo span{color:var(--accent)}
+.sb-sub{font-size:11px;color:var(--text3);margin-top:2px;text-transform:uppercase;letter-spacing:0.06em}
+.sb-section{padding:0 12px;margin-bottom:4px}
+.sb-section-label{font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;padding:8px 8px 4px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--r-sm);cursor:pointer;font-size:13px;color:var(--text2);transition:all 0.15s;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{background:var(--accent-bg);color:var(--accent-text)}
+.nav-num{font-size:10px;font-weight:500;color:var(--text3);min-width:18px}
+.nav-item.active .nav-num{color:var(--accent)}
+.sb-progress{padding:16px 20px;border-top:0.5px solid var(--border);margin-top:8px}
+.sp-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:6px}
+.sp-track{height:3px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.sp-fill{height:100%;background:var(--accent);border-radius:4px;transition:width 0.4s}
+
+.main{padding:32px 40px;overflow-x:hidden}
+.page-header{margin-bottom:40px;padding-bottom:28px;border-bottom:0.5px solid var(--border)}
+.page-title{font-size:28px;font-weight:500;line-height:1.25;letter-spacing:-0.02em;color:var(--text)}
+.page-title em{color:var(--accent);font-style:normal}
+.page-desc{font-size:14px;color:var(--text2);margin-top:8px;max-width:480px;line-height:1.6}
+
+.chapter{margin-bottom:40px;padding-bottom:32px;border-bottom:0.5px solid var(--border)}
+.chapter:last-of-type{border-bottom:none}
+.ch-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:20px}
+.ch-left{display:flex;align-items:center;gap:12px}
+.ch-num{font-size:10px;font-weight:500;color:var(--text3);background:var(--surface2);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:4px 8px;letter-spacing:0.04em;font-variant-numeric:tabular-nums}
+.ch-title{font-size:19px;font-weight:500;letter-spacing:-0.015em;color:var(--text)}
+.ch-cat{font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-top:1px}
+.done-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--r-sm);border:0.5px solid var(--border);background:none;color:var(--text3);font-size:12px;cursor:pointer;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.done-btn:hover{border-color:var(--accent);color:var(--accent)}
+.done-btn.done{background:var(--accent-bg);border-color:var(--accent);color:var(--accent-text)}
+.done-btn .icon{font-size:14px}
+
+.callout{border-radius:var(--r);padding:16px 20px;margin-bottom:20px;border-left:3px solid}
+.callout.blue{background:var(--accent-bg);border-color:var(--accent)}
+.callout.teal{background:var(--teal-bg);border-color:var(--teal)}
+.callout p{font-size:14px;color:var(--text2);line-height:1.6}
+.callout strong{color:var(--text)}
+.callout mark{background:var(--accent-bg);color:var(--accent-text);padding:1px 4px;border-radius:3px}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:700px){.g2{grid-template-columns:1fr}}
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:18px}
+.card h3{font-size:14px;font-weight:500;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.card-icon{font-size:14px;width:26px;height:26px;border-radius:var(--r-sm);background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card p,.card li{font-size:13.5px;color:var(--text2);line-height:1.6}
+.card ul{padding-left:18px}
+.card li{margin-bottom:4px}
+.card li strong{color:var(--text)}
+.card code{font-family:var(--font-mono,monospace);font-size:12px;background:var(--surface2);padding:1px 5px;border-radius:3px;color:var(--accent-text)}
+.card .note{font-size:12px;color:var(--text3);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
+
+.acc{border:0.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
+.acc-item:not(:last-child){border-bottom:0.5px solid var(--border)}
+.acc-head{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;cursor:pointer;font-size:14px;font-weight:500;color:var(--text);transition:background 0.15s;user-select:none}
+.acc-head:hover{background:var(--surface2)}
+.acc-head .acc-icon{font-size:14px;margin-right:8px}
+.acc-arr{color:var(--text3);transition:transform 0.2s;font-style:normal;font-size:12px}
+.acc-body{display:none;padding:0 18px 16px;background:var(--surface)}
+.acc-body.open{display:block}
+.acc-body p,.acc-body li{font-size:13.5px;color:var(--text2);line-height:1.6}
+.acc-body ul{padding-left:18px;margin-top:8px}
+.acc-body li{margin-bottom:4px}
+.acc-body li strong{color:var(--text)}
+.acc-body strong{color:var(--text)}
+.acc-body mark{background:var(--accent-bg);color:var(--accent-text);padding:1px 4px;border-radius:3px}
+.acc-item.open .acc-arr{transform:rotate(90deg)}
+.acc-item.open .acc-head{background:var(--surface2)}
+
+.section-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:16px}
+.section-card h3{font-size:14px;font-weight:500;color:var(--text);margin-bottom:10px}
+.section-card ul{padding-left:18px}
+.section-card p,.section-card li{font-size:13.5px;color:var(--text2);line-height:1.6}
+.section-card li{margin-bottom:5px}
+.section-card li strong{color:var(--text)}
+.section-card code{font-family:var(--font-mono,monospace);font-size:12px;background:var(--surface2);padding:1px 5px;border-radius:3px;color:var(--accent-text)}
+.section-card mark{background:var(--accent-bg);color:var(--accent-text);padding:1px 4px;border-radius:3px}
+
+.qblock{border:0.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:20px}
+.q-head{padding:10px 16px;background:var(--surface2);border-bottom:0.5px solid var(--border);font-size:12px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;display:flex;align-items:center;gap:6px}
+.q-body{padding:16px}
+.q-text{font-size:14px;color:var(--text);margin-bottom:12px;line-height:1.6;font-weight:500}
+.q-options{display:flex;flex-direction:column;gap:6px}
+.q-opt{padding:10px 14px;border:0.5px solid var(--border);border-radius:var(--r-sm);cursor:pointer;font-size:13.5px;color:var(--text2);transition:all 0.15s;background:var(--surface)}
+.q-opt:hover{border-color:var(--accent);color:var(--text)}
+.q-opt.correct{background:var(--teal-bg);border-color:var(--teal);color:var(--teal)}
+.q-opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+.q-feedback{margin-top:10px;font-size:13px;padding:8px 12px;border-radius:var(--r-sm)}
+.q-feedback.correct{background:var(--teal-bg);color:var(--teal)}
+.q-feedback.wrong{background:var(--red-bg);color:var(--red)}
+
+.osi-stack{display:flex;flex-direction:column;gap:3px;margin:16px 0}
+.osi-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--r-sm);cursor:pointer;transition:opacity 0.15s}
+.osi-row:hover{opacity:0.85}
+.osi-num{font-size:11px;font-weight:500;min-width:16px;text-align:right;opacity:0.7}
+.osi-name{font-size:13.5px;font-weight:500;min-width:100px}
+.osi-tag{font-size:11px;font-family:var(--font-mono,monospace);opacity:0.75;margin-left:auto;background:rgba(255,255,255,0.25);padding:2px 7px;border-radius:3px}
+
+.flow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+@media(max-width:600px){.flow-grid{grid-template-columns:1fr}}
+.flow-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:16px}
+.flow-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px}
+.flow-vis{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px 0;height:32px}
+.flow-node{font-size:16px}
+.flow-line{flex:1;height:2px;background:var(--border);border-radius:2px;position:relative;overflow:visible}
+.flow-arrow{position:absolute;top:50%;transform:translateY(-50%);width:8px;height:8px;background:var(--accent);border-radius:50%}
+.ar{animation:arMove 1.8s linear infinite}
+.al{animation:arMoveL 1.8s linear infinite}
+@keyframes arMove{0%{left:0}100%{left:100%}}
+@keyframes arMoveL{0%{left:100%}100%{left:0}}
+.flow-desc{font-size:12.5px;color:var(--text2);line-height:1.5}
+
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:12px;font-weight:500}
+.tag-level{background:var(--surface2);color:var(--text3);border:0.5px solid var(--border)}
+
+.chapter-nav{display:flex;justify-content:space-between;margin-top:24px;padding-top:16px;border-top:0.5px solid var(--border)}
+.cnav-btn{padding:7px 14px;border:0.5px solid var(--border);border-radius:var(--r-sm);font-size:12.5px;color:var(--text2);cursor:pointer;background:none;transition:all 0.15s}
+.cnav-btn:hover{background:var(--surface2);color:var(--text);border-color:var(--accent)}
+.cnav-btn.primary{background:var(--accent-bg);border-color:var(--accent);color:var(--accent-text)}
+
+.search-bar{display:flex;align-items:center;gap:8px;background:var(--surface2);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:8px 12px;margin-bottom:24px}
+.search-bar input{background:none;border:none;outline:none;font-size:14px;color:var(--text);flex:1;font-family:inherit}
+.search-bar input::placeholder{color:var(--text3)}
+.search-icon{color:var(--text3);font-size:14px}
+
+.no-results{text-align:center;padding:60px 20px;color:var(--text3)}
+.no-results .nr-icon{font-size:32px;margin-bottom:12px;opacity:0.5}
+.no-results p{font-size:14px}
+
+.stats-row{display:flex;gap:12px;margin-bottom:24px}
+.stat{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:12px 16px;flex:1;text-align:center}
+.stat-val{font-size:22px;font-weight:500;color:var(--text);font-variant-numeric:tabular-nums}
+.stat-lbl{font-size:11px;color:var(--text3);margin-top:2px;text-transform:uppercase;letter-spacing:0.06em}
+</style>
+
+<div class="app" id="app">
+<aside class="sidebar" id="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo">Net<span>Flow</span></div>
+    <div class="sb-sub">Networking Concepts</div>
+  </div>
+  <div id="nav-tree"></div>
+  <div class="sb-progress">
+    <div class="sp-label"><span>Progress</span><span id="prog-count">0 / 20</span></div>
+    <div class="sp-track"><div class="sp-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+</aside>
+
+<main class="main" id="main-content">
+  <div class="page-header">
+    <h1 class="page-title">Learn <em>Networking</em> Fundamentals</h1>
+    <p class="page-desc">A comprehensive guide from the basics of data transfer to advanced global infrastructure and cybersecurity.</p>
+    <div class="search-bar" style="margin-top:16px;margin-bottom:0">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="search-input" placeholder="Search concepts, terms, protocols…">
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-val" id="stat-done">0</div><div class="stat-lbl">Completed</div></div>
+    <div class="stat"><div class="stat-val">20</div><div class="stat-lbl">Chapters</div></div>
+    <div class="stat"><div class="stat-val">6</div><div class="stat-lbl">Levels</div></div>
+  </div>
+
+  <div id="chapters-container"></div>
+  <div class="no-results" id="no-results" style="display:none">
+    <div class="nr-icon">◌</div>
+    <p>Nothing found — try "router", "TCP", or "duplex"</p>
+  </div>
+</main>
+</div>
+
+<script>
+const CHAPTERS = [
+  {id:"basics",num:"01",title:"Networking Basics",cat:"Level 1: Fundamentals",catColor:"accent",
+   summary:"Networking is simply devices talking to each other to share data.",
+   callout:{type:"blue",text:"<strong>The Highway Analogy:</strong> Houses are computers, roads are the cables or Wi-Fi, and cars driving between them are the <mark>data packets</mark> being shared."},
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">💻</span> Node & Host</h3><ul><li><strong>Node:</strong> Any physical device connected to the network (router, switch, printer).</li><li><strong>Host:</strong> A smart node with an IP address that runs applications (laptop, web server).</li></ul></div>
+<div class="card"><h3><span class="card-icon">📦</span> The Data Packet</h3><p>Files aren't sent as one chunk. A 5MB photo is chopped into thousands of tiny envelopes called <strong>Packets</strong>.</p><p class="note">Each packet has a Header (destination IP) and a Payload (piece of the photo).</p></div>
+</div>
+<div class="section-card"><h3>Client-Server & P2P Models</h3><ul><li><strong>Client-Server:</strong> The Client asks for data (you opening YouTube). The Server is a powerful always-on computer that holds and serves it.</li><li><strong>Peer-to-Peer (P2P):</strong> Devices talk directly — everyone is both client and server (AirDrop, BitTorrent).</li></ul></div>`,
+   quiz:{q:"When you download a file, data is chopped into thousands of tiny digital envelopes. What are these called?",opts:["Nodes","Packets","Servers"],ans:1,exp:"Correct! Packets are the fundamental unit of data transmission across networks."}
+  },
+  {id:"net-types",num:"02",title:"Network Types (Scope)",cat:"Level 1: Fundamentals",catColor:"accent",
+   summary:"Networks categorized by geographical distance and purpose.",
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">🏠</span> LAN — Local Area Network</h3><p>A network in a single location: your house, a coffee shop, an office. Devices share one local infrastructure and one Router to reach the outside world.</p></div>
+<div class="card"><h3><span class="card-icon">🌍</span> WAN — Wide Area Network</h3><p>A massive network spanning cities, countries, or the globe. Thousands of LANs connected via telecom cables. The <strong>Internet</strong> is the ultimate WAN.</p></div>
+</div>
+<div class="section-card"><h3>Other Notable Scopes</h3><ul><li><strong>PAN (Personal Area Network):</strong> Around a single person. <em>Your phone + Bluetooth earbuds + smartwatch.</em></li><li><strong>MAN (Metropolitan Area Network):</strong> Covers an entire city or university campus.</li><li><strong>SAN (Storage Area Network):</strong> Ultra-fast network in data centers connecting servers to storage drives.</li></ul></div>`,
+   quiz:{q:"Connecting your wireless headphones to your smartphone creates which type of network?",opts:["LAN","WAN","PAN"],ans:2,exp:"Correct! A Personal Area Network (PAN) covers the space around a single individual."}
+  },
+  {id:"cabling",num:"03",title:"Physical Cabling",cat:"Level 2: Hardware & Layout",catColor:"teal",
+   summary:"What carries the world's data — even in a wireless world, Wi-Fi hits a wire eventually.",
+   accItems:[
+     {icon:"🔌",title:"Copper Twisted-Pair (Ethernet)",body:`<p>Uses <strong>electrical signals</strong> to transmit 1s and 0s. Eight copper wires are twisted in pairs — the twisting cancels electromagnetic interference.</p><ul><li><strong>Categories:</strong> Cat5e, Cat6, Cat6a — higher numbers mean faster speeds (up to 10 Gbps).</li><li><strong>Limitation:</strong> Signal degrades (attenuation) after <strong>100 meters (328 feet)</strong>.</li></ul>`},
+     {icon:"✨",title:"Fiber Optic",body:`<p>Uses <strong>pulses of light</strong> through microscopic glass strands. The backbone of the modern internet.</p><ul><li><strong>Multi-mode:</strong> Uses LEDs. Light bounces around the glass. Cheaper, shorter distances.</li><li><strong>Single-mode:</strong> High-powered Lasers shooting straight down the glass. Can travel miles across oceans.</li><li><strong>Superpower:</strong> 100% immune to electrical interference, lightning, and water damage.</li></ul>`},
+     {icon:"📺",title:"Coaxial Cable",body:`<p>Thick cable with a single copper pin in the center (Cable TV). Heavy metal shielding. Cable companies still use it to deliver internet from the street to your house (DOCSIS standard).</p>`},
+   ],
+   quiz:{q:"Which cable uses pulses of light instead of electricity, making it immune to electrical interference?",opts:["Cat6 Ethernet","Fiber Optic","Coaxial Cable"],ans:1,exp:"Fiber Optic transmits light pulses through glass strands, making it immune to all electrical interference."}
+  },
+  {id:"topologies",num:"04",title:"Network Topologies",cat:"Level 2: Hardware & Layout",catColor:"teal",
+   summary:"The architectural map of how devices are physically wired together.",
+   accItems:[
+     {icon:"⭐",title:"Star Topology",body:`<p>All devices connect individually to a central hub or switch — the standard for modern homes and offices.</p><ul><li><strong>Pros:</strong> Highly manageable. One cable breaks, the rest of the network is fine.</li><li><strong>Cons:</strong> Single point of failure — if the central switch dies, everyone goes offline.</li></ul>`},
+     {icon:"🕸️",title:"Mesh Topology",body:`<p>Every device has a dedicated cable connecting to every other device on the network.</p><ul><li><strong>Pros:</strong> Unbeatable fault tolerance — data automatically routes around damage.</li><li><strong>Cons:</strong> Incredibly expensive. Used only for core internet infrastructure and military setups.</li></ul>`},
+     {icon:"⭕",title:"Ring & Bus Topologies (Legacy)",body:`<ul><li><strong>Bus:</strong> All devices tap into one backbone cable. Cheap, but one cut kills everyone. Massive data collisions.</li><li><strong>Ring:</strong> Devices in a closed circle. Data travels one direction. A computer held a digital "Token" to speak. If one computer died, the ring broke.</li></ul>`},
+   ],
+   quiz:{q:"Which topology connects all computers to a single central Switch?",opts:["Mesh Topology","Ring Topology","Star Topology"],ans:2,exp:"Star topology is the standard in modern networks — all devices connect to a central switch."}
+  },
+  {id:"devices",num:"05",title:"Network Devices",cat:"Level 2: Hardware & Layout",catColor:"teal",
+   summary:"End devices create data. Intermediary devices transport it.",
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">⬡</span> Switch — Local Traffic Cop</h3><p>Connects devices within the <mark>same local network</mark> (LAN). Learns which MAC address is on which port. Sends data <em>only</em> to the specific destination port.</p><p class="note">In the 90s, "Hubs" blindly shouted data out of every port. Switches replaced them.</p></div>
+<div class="card"><h3><span class="card-icon">⟿</span> Router — Global Navigator</h3><p>Connects <mark>different networks</mark> together. Your home router links your LAN to your ISP's network. Reads IP addresses and calculates the fastest path across the globe.</p></div>
+</div>
+<div class="section-card"><h3>Modems & Access Points</h3><ul><li><strong>Modem:</strong> Translates analog signals from the street (Coaxial, telephone lines) into digital 1s and 0s for your Router.</li><li><strong>Access Point (AP):</strong> Acts as an antenna. Receives Wi-Fi radio waves from your phone and converts them into electrical signals in a physical Ethernet cable.</li></ul></div>`,
+   quiz:{q:"Which device learns MAC addresses and connects devices within the SAME local network?",opts:["Switch","Router","Modem"],ans:0,exp:"Switches learn MAC address tables to intelligently deliver data only to its intended recipient within a LAN."}
+  },
+  {id:"flow",num:"06",title:"Data Flow Directions",cat:"Level 3: Rules & Addressing",catColor:"amber",
+   summary:"How data moves between two points on the cables.",
+   flowItems:[
+     {title:"Simplex",desc:"One-way street. Sender only sends, receiver only receives. (Computer → Monitor, TV broadcast).",dir:"right"},
+     {title:"Half-Duplex",desc:"One-lane bridge. Both directions, but only one at a time. Collisions corrupt data. (Walkie-Talkies, old Hubs).",dir:"both-seq"},
+     {title:"Full-Duplex",desc:"Two-way highway. Both directions simultaneously at full speed. All modern networks use this. (Phone calls, Fiber).",dir:"both"},
+   ],
+   quiz:{q:"A police officer uses a radio — they press to speak, release to listen. What type of data flow is this?",opts:["Simplex","Half-Duplex","Full-Duplex"],ans:1,exp:"Half-Duplex allows communication in both directions, but only one at a time — just like a walkie-talkie."}
+  },
+  {id:"protocols",num:"07",title:"Protocols & Data Delivery",cat:"Level 3: Rules & Addressing",catColor:"amber",
+   summary:"A protocol is a strict mathematical set of rules for how data is formatted and exchanged.",
+   callout:{type:"blue",text:"<strong>What is a protocol?</strong> Imagine two humans talking — they must agree on a language and rules. For computers, a <mark>Protocol</mark> defines exactly how data is formatted and exchanged."},
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">📦</span> TCP — Reliable Courier</h3><p>Transmission Control Protocol. <strong>Guarantees delivery.</strong></p><ul><li>Performs a <strong>3-Way Handshake</strong> (SYN → SYN-ACK → ACK) before sending.</li><li>Verifies data arrived and resends if lost.</li><li>Used for: Email, web browsing, file downloads.</li></ul></div>
+<div class="card"><h3><span class="card-icon">🚀</span> UDP — Fast Courier</h3><p>User Datagram Protocol. <strong>Favors speed over reliability.</strong></p><ul><li>Fires data instantly without checking if it arrived.</li><li>Highly efficient but occasionally drops data.</li><li>Used for: Live video (Zoom), online gaming.</li></ul></div>
+</div>
+<div class="section-card"><h3>Common Application Protocols</h3><ul><li><strong>HTTP/HTTPS:</strong> The language of the Web. The 'S' means Secure (encrypted).</li><li><strong>FTP:</strong> File Transfer Protocol. For uploading/downloading large files to a server.</li><li><strong>SSH:</strong> Secure Shell. For securely logging into remote servers via command line.</li></ul></div>`,
+   quiz:{q:"You're streaming a live sports game. If tiny data is lost, it's better to skip it than pause to resend. Which protocol?",opts:["HTTP","TCP","UDP"],ans:2,exp:"UDP prioritizes speed — perfect for live streaming where a tiny dropped packet is better than buffering."}
+  },
+  {id:"addressing",num:"08",title:"IP, MAC & Ports",cat:"Level 3: Rules & Addressing",catColor:"amber",
+   summary:"Three layers of addressing work simultaneously to get data to the right destination.",
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">🏷️</span> MAC Address — Physical</h3><p class="note" style="margin-bottom:8px">Analogy: The permanent VIN number of your car.</p><ul><li><strong>Permanent:</strong> Burned into your Network Interface Card (NIC) at the factory. Never changes.</li><li><strong>Scope:</strong> Used by Switches for local delivery inside your LAN.</li><li><strong>Format:</strong> 48-bit hexadecimal — <code>00:1A:2B:3C:4D:5E</code></li></ul></div>
+<div class="card"><h3><span class="card-icon">📍</span> IP Address — Logical</h3><p class="note" style="margin-bottom:8px">Analogy: Your current parking spot address.</p><ul><li><strong>Temporary:</strong> Changes when you move from home Wi-Fi to a coffee shop.</li><li><strong>Scope:</strong> Used by Routers to navigate data globally.</li><li><strong>IPv4 vs IPv6:</strong> IPv4 (<code>192.168.1.15</code>) ran out. IPv6 (<code>2001:0db8::8a2e</code>) has infinite addresses.</li></ul></div>
+</div>
+<div class="section-card"><h3>Port Numbers — The Apartment Number</h3><p>The IP gets data to your computer. The Port tells the computer whether to send it to Chrome or Spotify.</p><p style="margin-top:8px;font-size:13px;color:var(--text3)"><strong style="color:var(--text)">Well-known ports:</strong> Port 80 (HTTP), Port 443 (HTTPS), Port 22 (SSH), Port 53 (DNS).</p></div>`,
+   quiz:{q:"You move your laptop from home Wi-Fi to a library's Wi-Fi. Which address changes?",opts:["MAC Address","IP Address","Port Number"],ans:1,exp:"IP addresses are logical and change with each network. MAC addresses are permanently fixed to the hardware."}
+  },
+  {id:"nat",num:"09",title:"Public vs. Private IPs (NAT)",cat:"Level 3: Rules & Addressing",catColor:"amber",
+   summary:"How 15 devices in your home all share one single internet connection.",
+   callout:{type:"teal",text:"<strong>NAT (Network Address Translation):</strong> Your Router acts as a middleman. Like a business building — one public phone number outside, but private extensions inside. NAT is the receptionist routing calls to the right desk."},
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">🏡</span> Private IP</h3><ul><li>Used exclusively inside your LAN.</li><li>Invisible and unreachable from the internet.</li><li>Starts with <code>192.168.x.x</code> or <code>10.x.x.x</code></li></ul></div>
+<div class="card"><h3><span class="card-icon">🌐</span> Public IP</h3><ul><li>Used globally on the WAN (Internet).</li><li>Visible to every website you visit.</li><li>One per household, assigned by your ISP.</li></ul></div>
+</div>
+<div class="section-card"><h3>PAT — Port Address Translation</h3><p>When 3 phones all request Instagram simultaneously, the Router assigns a unique temporary Port Number to each request. When Instagram replies to your single Public IP, the Router uses the Port Number to route each photo to the right phone.</p></div>`,
+   quiz:{q:"Which IP address is entirely invisible to the outside internet?",opts:["Public IP Address","Private IP Address"],ans:1,exp:"Private IPs (192.168.x.x) only work inside your LAN — they're never exposed to the internet directly."}
+  },
+  {id:"subnetting",num:"10",title:"Subnetting Basics",cat:"Level 3: Rules & Addressing",catColor:"amber",
+   summary:"Taking one large network and slicing it into smaller, more efficient networks.",
+   callout:{type:"blue",text:"<strong>Dividing the Pie.</strong> Subnetting takes one large flat network and slices it into multiple smaller, more efficient networks (subnets)."},
+   content:`<div class="section-card"><h3>The Subnet Mask</h3><p>A Subnet Mask like <code>255.255.255.0</code> acts as a digital highlighter on an IP address.</p><ul style="margin-top:10px"><li>Highlights which part is the <strong>Network (The Neighborhood)</strong></li><li>Highlights which part is the <strong>Host (The Specific House)</strong></li></ul></div>
+<div class="g2">
+<div class="card"><h3><span class="card-icon">📈</span> Why Subnet?</h3><ul><li><strong>Performance:</strong> Reduces Broadcast Domains — instead of 1,000 computers shouting at each other, you get 4 quiet groups of 250.</li><li><strong>Security:</strong> Finance on Subnet A, Guest Wi-Fi on Subnet B — router blocks them from talking.</li></ul></div>
+<div class="card"><h3><span class="card-icon">🔢</span> CIDR Notation</h3><p>Shorthand for subnet masks. Instead of writing <code>255.255.255.0</code>, engineers write <code>192.168.1.1/24</code>.</p><p class="note">The <strong>/24</strong> means 24 bits are locked as the network portion.</p></div>
+</div>`,
+   quiz:{q:"What is the primary purpose of a Subnet Mask?",opts:["To hide your IP from hackers","To determine which part of an IP is the network vs the host"],ans:1,exp:"The subnet mask divides an IP address into its network and host portions — essential for routing."}
+  },
+  {id:"services",num:"11",title:"DHCP & DNS",cat:"Level 3: Rules & Addressing",catColor:"amber",
+   summary:"Two invisible services that automatically give you an ID and a phone book when you join a network.",
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">🎫</span> DHCP — The Receptionist</h3><p>When you connect to Wi-Fi, DHCP hands you a temporary IP address (a "lease") automatically — no manual entry.</p><p class="note"><strong>DORA Process:</strong> Discover → Offer → Request → Acknowledge</p></div>
+<div class="card"><h3><span class="card-icon">📖</span> DNS — The Phonebook</h3><p>Computers route by numbers (IP addresses). Humans prefer words (<code>google.com</code>). DNS translates instantly.</p><p class="note"><strong>Hierarchy:</strong> Local DNS → Root server → .com server → Final IP</p></div>
+</div>`,
+   quiz:{q:"You type 'netflix.com' into your browser. Which service finds the actual IP address for Netflix?",opts:["DHCP","DNS","NAT"],ans:1,exp:"DNS translates human-readable domain names into machine-readable IP addresses — the internet's phonebook."}
+  },
+  {id:"traits",num:"12",title:"Network Metrics & Quality",cat:"Level 4: Advanced Concepts",catColor:"coral",
+   summary:"How engineers measure and diagnose network performance.",
+   content:`<div class="section-card"><ul>
+<li><strong><mark>Bandwidth</mark>:</strong> Maximum potential capacity of a connection — like the number of lanes on a highway. Measured in Mbps.</li>
+<li style="margin-top:8px"><strong><mark>Throughput</mark>:</strong> The actual real-world speed after traffic, distance, and overhead. Always lower than Bandwidth.</li>
+<li style="margin-top:8px"><strong><mark>Latency (Ping)</mark>:</strong> Time delay for data to travel from A to B. Measured in milliseconds (ms). High latency = "lag".</li>
+<li style="margin-top:8px"><strong><mark>Jitter</mark>:</strong> Fluctuation in Latency. Ping jumping between 20ms and 200ms ruins VoIP calls.</li>
+<li style="margin-top:8px"><strong><mark>Packet Loss</mark>:</strong> Packets destroyed in transit due to congestion or faulty cables. Causes stuttering video.</li>
+</ul></div>`,
+   quiz:{q:"Your VoIP call sounds robotic and keeps skipping because data doesn't arrive consistently. Which metric is failing?",opts:["Bandwidth","Jitter / Packet Loss","Throughput"],ans:1,exp:"Jitter (inconsistent latency) and packet loss are the main culprits behind poor VoIP audio quality."}
+  },
+  {id:"osi",num:"13",title:"The OSI Model Layers",cat:"Level 4: Advanced Concepts",catColor:"coral",
+   summary:"A 7-layer blueprint explaining the exact journey data takes from your screen to physical electricity and back.",
+   callout:{type:"blue",text:"<strong>How a click becomes electricity.</strong> The OSI model explains every step data takes from your application down to the wire — and back up on the other side."},
+   osi:true,
+   accItems:[
+     {icon:"7",title:"Application — Data (HTTP / Apps)",body:"<p>Where applications (Chrome, Outlook) interact with the network. Provides protocols like HTTP, FTP, DNS.</p>"},
+     {icon:"6",title:"Presentation — Data (Encryption / Format)",body:"<p>Formats, encrypts, and compresses data. Ensures a JPEG from a Mac looks like a JPEG on Windows. SSL/TLS encryption lives here.</p>"},
+     {icon:"5",title:"Session — Data (Connections)",body:"<p>Opens, manages, and gracefully closes the connection between two devices to prevent abrupt interruptions.</p>"},
+     {icon:"4",title:"Transport — Segments (TCP/UDP, Ports)",body:"<p>Chops data into <mark>Segments</mark>. Assigns Port Numbers so the receiving PC knows which app gets the data. Chooses TCP or UDP.</p>"},
+     {icon:"3",title:"Network — Packets (Routers, IP)",body:"<p>Adds <mark>IP Addresses</mark> to create <mark>Packets</mark>. Calculates the best global route. <strong>Routers</strong> operate here.</p>"},
+     {icon:"2",title:"Data Link — Frames (Switches, MAC)",body:"<p>Adds <mark>MAC Addresses</mark> to create <mark>Frames</mark> for local delivery. <strong>Switches</strong> operate here. Basic error checking included.</p>"},
+     {icon:"1",title:"Physical — Bits (Cables, Wi-Fi)",body:"<p>Converts <mark>Bits</mark> (1s and 0s) into electrical pulses (copper), light signals (fiber), or radio waves (Wi-Fi).</p>"},
+   ],
+   quiz:{q:"At which OSI layer do Routers operate, using IP addresses to find the best global path?",opts:["Layer 1 (Physical)","Layer 2 (Data Link)","Layer 3 (Network)","Layer 4 (Transport)"],ans:2,exp:"Layer 3 (Network) is where IP addresses live and Routers operate — navigating data across the internet."}
+  },
+  {id:"wifi",num:"14",title:"Wi-Fi & Wireless Tech",cat:"Level 5: Global Infrastructure",catColor:"green",
+   summary:"Data flying invisibly through the air using radio frequency (RF) waves.",
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">📶</span> Frequency Bands</h3><ul><li><strong>2.4 GHz:</strong> Slower speeds, travels farther, penetrates thick walls. Often crowded by microwaves and Bluetooth.</li><li><strong>5 GHz & 6 GHz:</strong> Much faster, but shorter range and blocked easily by solid objects.</li></ul></div>
+<div class="card"><h3><span class="card-icon">🎛️</span> Wi-Fi Channels</h3><p>Within a band, multiple "Channels" exist like highway lanes. If you and your neighbor both use Channel 6, your routers shout over each other — causing <strong>Interference</strong> that slows both down.</p></div>
+</div>`,
+   quiz:{q:"You're in your backyard, far from the router with thick walls between you. Which frequency is more stable?",opts:["2.4 GHz","5 GHz"],ans:0,exp:"2.4 GHz travels farther and penetrates walls better — ideal for range-critical situations."}
+  },
+  {id:"backbone",num:"15",title:"The Physical Internet",cat:"Level 5: Global Infrastructure",catColor:"green",
+   summary:"The cloud isn't in the sky. The internet is highly physical.",
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">🌊</span> Undersea Cables</h3><p>Over 95% of international internet traffic travels through armored fiber-optic cables on the ocean floor. An email from New York to London physically crosses the ocean as light pulses. Shark bites and ship anchors are real threats.</p></div>
+<div class="card"><h3><span class="card-icon">🏢</span> ISPs & Peering</h3><p>Tier 3 ISPs (like Comcast) pay massive Tier 1 providers for access to undersea cables. When large networks agree to share traffic directly for free, it's called <strong>Peering</strong>.</p></div>
+</div>`,
+   quiz:{q:"How does the vast majority of internet data travel between continents?",opts:["Satellites in space","Undersea Fiber-Optic Cables","Wireless radio towers"],ans:1,exp:"95%+ of intercontinental internet traffic runs through fiber-optic cables on the ocean floor."}
+  },
+  {id:"cloud",num:"16",title:"The Cloud & Data Centers",cat:"Level 5: Global Infrastructure",catColor:"green",
+   summary:"There is no cloud — it's just someone else's computer in a warehouse.",
+   callout:{type:"blue",text:`<strong>There is no cloud, it's just someone else's computer.</strong> When you save a photo to "The Cloud," it lands on a physical hard drive inside a remote warehouse called a Data Center.`},
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">🏭</span> Data Centers & VMs</h3><p>Massive warehouses with thousands of servers. <strong>Virtual Machines (VMs)</strong> trick hardware into acting like 10 different computers, maximizing efficiency.</p></div>
+<div class="card"><h3><span class="card-icon">📦</span> Cloud Service Models</h3><ul><li><strong>SaaS:</strong> Use the finished app (Netflix, Gmail).</li><li><strong>PaaS:</strong> You bring code, they run it (Heroku).</li><li><strong>IaaS:</strong> Rent raw blank servers (AWS EC2, Azure).</li></ul></div>
+</div>`,
+   quiz:{q:"When you upload a document to Google Drive, where does it actually go?",opts:["A satellite orbiting Earth","A physical server in a remote Data Center"],ans:1,exp:"Cloud storage is physically stored on servers in data centers — there's nothing magical about it."}
+  },
+  {id:"iot",num:"17",title:"Internet of Things (IoT)",cat:"Level 5: Global Infrastructure",catColor:"green",
+   summary:"When everyday objects — fridges, cars, lightbulbs — join the network.",
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">💡</span> What is IoT?</h3><p>Putting a network chip in traditionally non-computer things. Smart lightbulbs, factory sensors, pacemakers, modern cars. They collect data and talk to the Cloud automatically.</p><p class="note"><strong>The IPv6 Push:</strong> Billions of new devices used up all IPv4 addresses, forcing the world to adopt IPv6.</p></div>
+<div class="card"><h3><span class="card-icon">🧠</span> Edge Computing</h3><p>Instead of a self-driving car sending all video data to the Cloud (too slow), a mini-computer inside processes data locally at the "Edge" of the network. Faster and safer.</p></div>
+</div>`,
+   quiz:{q:"What is a major reason the world is upgrading from IPv4 to IPv6?",opts:["IPv6 makes Wi-Fi physically faster","The explosion of IoT devices used up all IPv4 addresses"],ans:1,exp:"The massive growth of IoT devices created billions of new IP address demands that IPv4 simply can't satisfy."}
+  },
+  {id:"security",num:"18",title:"Network Security Basics",cat:"Level 6: Security & Practice",catColor:"red",
+   summary:"How we keep bad actors from intercepting or destroying data.",
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">🧱</span> Firewalls</h3><p>The bouncer at the door. Sits between your LAN and the internet. <strong>Stateful Firewalls</strong> track sessions — if you request a webpage, they open a hole for the reply but block uninvited traffic from outside.</p></div>
+<div class="card"><h3><span class="card-icon">🛡️</span> Common Threats</h3><ul><li><strong><mark>Phishing</mark>:</strong> Fake emails tricking humans into giving passwords. Humans are the weakest link.</li><li><strong><mark>DDoS</mark>:</strong> Flooding a server with fake traffic from hacked computers until it crashes.</li><li><strong><mark>MitM</mark>:</strong> Attacker secretly intercepts messages between two parties. Defeated by HTTPS.</li></ul></div>
+</div>`,
+   quiz:{q:"An attacker uses thousands of hacked computers to send fake traffic to a website, crashing it. What attack is this?",opts:["Phishing","Man-in-the-Middle","DDoS Attack"],ans:2,exp:"DDoS (Distributed Denial of Service) overwhelms a server with traffic from many compromised machines."}
+  },
+  {id:"vpns",num:"19",title:"VPNs & Proxies",cat:"Level 6: Security & Practice",catColor:"red",
+   summary:"Tools to mask identity and secure data over public networks.",
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">🚇</span> VPN — Virtual Private Network</h3><p><strong>The Armored Tunnel.</strong> Wraps all your traffic in heavy encryption (IPsec) and routes it through a remote server. Your ISP only sees gibberish. Also makes websites think you're located where the VPN server is.</p></div>
+<div class="card"><h3><span class="card-icon">🕵️</span> Proxy Servers</h3><p><strong>The Middleman.</strong> Fetches webpages on your behalf. Generally does not encrypt your full connection. <strong>Reverse Proxies</strong> sit in front of web servers to protect them and distribute traffic load.</p></div>
+</div>`,
+   quiz:{q:"Which technology wraps your entire device's internet traffic in encryption, hiding it from your ISP?",opts:["VPN","Proxy Server","DHCP"],ans:0,exp:"VPNs create an encrypted tunnel for all your traffic — proxies only handle individual requests."}
+  },
+  {id:"troubleshooting",num:"20",title:"Troubleshooting Tools",cat:"Level 6: Security & Practice",catColor:"red",
+   summary:"CLI tools engineers use to diagnose the exact point of network failure.",
+   content:`<div class="g2">
+<div class="card"><h3><span class="card-icon">🏓</span> Ping</h3><p>"Are you there?" Sends an ICMP echo request and waits for a reply. Verifies basic connectivity and shows round-trip latency.</p></div>
+<div class="card"><h3><span class="card-icon">🗺️</span> Traceroute (tracert)</h3><p>"Which path did you take?" Shows every Router (hop) your data passes through. If a connection fails halfway, Traceroute pinpoints exactly which router dropped the ball.</p></div>
+</div>
+<div class="g2">
+<div class="card"><h3><span class="card-icon">🔍</span> ipconfig / ifconfig</h3><p>Shows your device's current settings: Private IP, Subnet Mask, and <strong>Default Gateway</strong> (your Router's IP — the exit door to the internet).</p></div>
+<div class="card"><h3><span class="card-icon">🛠️</span> nslookup & netstat</h3><ul><li><strong>nslookup:</strong> Tests DNS — manually forces a DNS server to return the IP for a URL.</li><li><strong>netstat:</strong> Shows all active TCP connections on your computer. Great for spotting apps secretly phoning home.</li></ul></div>
+</div>`,
+   quiz:{q:"You want to see exactly which router between your house and a website is dropping the connection. Which tool?",opts:["Ping","Traceroute","ipconfig"],ans:1,exp:"Traceroute maps every hop on the path and shows exactly where connectivity breaks down."}
+  },
+];
+
+const CAT_COLORS={
+  "Level 1: Fundamentals":"accent",
+  "Level 2: Hardware & Layout":"teal",
+  "Level 3: Rules & Addressing":"amber",
+  "Level 4: Advanced Concepts":"coral",
+  "Level 5: Global Infrastructure":"green",
+  "Level 6: Security & Practice":"red"
+};
+
+const OSI_COLORS=["#e2e2e2","#d5baff","#bae1ff","#baffc9","#ffffba","#ffdfba","#ffb3ba"];
+const OSI_TEXT=["#5f5e5a","#26215c","#042c53","#173404","#412402","#411800","#501313"];
+
+let done=new Set();
+let activeChapter=0;
+
+function buildNav(){
+  const tree=document.getElementById('nav-tree');
+  const groups={};
+  CHAPTERS.forEach((c,i)=>{
+    if(!groups[c.cat])groups[c.cat]=[];
+    groups[c.cat].push({...c,i});
+  });
+  Object.entries(groups).forEach(([cat,items])=>{
+    const sec=document.createElement('div');
+    sec.className='sb-section';
+    const lbl=document.createElement('div');
+    lbl.className='sb-section-label';
+    lbl.textContent=cat;
+    sec.appendChild(lbl);
+    items.forEach(({num,title,i})=>{
+      const btn=document.createElement('button');
+      btn.className='nav-item'+(i===0?' active':'');
+      btn.id='nav-'+i;
+      btn.innerHTML=`<span class="nav-num">${num}</span>${title}`;
+      btn.onclick=()=>scrollToChapter(i);
+      sec.appendChild(btn);
+    });
+    tree.appendChild(sec);
+  });
+}
+
+function scrollToChapter(i){
+  const el=document.getElementById('chapter-'+i);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const nav=document.getElementById('nav-'+i);
+  if(nav)nav.classList.add('active');
+  activeChapter=i;
+}
+
+function buildChapters(){
+  const container=document.getElementById('chapters-container');
+  CHAPTERS.forEach((ch,i)=>{
+    const sec=document.createElement('section');
+    sec.className='chapter';
+    sec.id='chapter-'+i;
+    sec.dataset.search=(ch.title+' '+ch.cat+' '+(ch.summary||'')).toLowerCase();
+    sec.innerHTML=renderChapter(ch,i);
+    container.appendChild(sec);
+  });
+  document.querySelectorAll('.done-btn').forEach(btn=>{
+    btn.onclick=function(){
+      const idx=+this.dataset.idx;
+      if(done.has(idx)){done.delete(idx);this.innerHTML='<span class="icon">○</span> Mark done';this.classList.remove('done')}
+      else{done.add(idx);this.innerHTML='<span class="icon">✓</span> Done';this.classList.add('done')}
+      updateProgress();
+    }
+  });
+  document.querySelectorAll('.acc-head').forEach(h=>{
+    h.onclick=function(){
+      const item=this.closest('.acc-item');
+      const body=item.querySelector('.acc-body');
+      const isOpen=item.classList.contains('open');
+      item.classList.toggle('open',!isOpen);
+      body.classList.toggle('open',!isOpen);
+    }
+  });
+  document.querySelectorAll('.q-opt').forEach(opt=>{
+    opt.onclick=function(){
+      const block=this.closest('.qblock');
+      if(block.dataset.answered)return;
+      block.dataset.answered='1';
+      const correct=+this.dataset.c;
+      const allOpts=block.querySelectorAll('.q-opt');
+      allOpts.forEach((o,oi)=>{
+        if(+o.dataset.c===1)o.classList.add('correct');
+        else if(o===this&&correct===0)o.classList.add('wrong');
+      });
+      const fb=block.querySelector('.q-feedback');
+      fb.className='q-feedback '+(correct?'correct':'wrong');
+      const ch=CHAPTERS[+block.dataset.chidx];
+      fb.textContent=correct?'✓ '+ch.quiz.exp:'✗ Not quite — the correct answer is highlighted above.';
+    }
+  });
+  initIntersection();
+}
+
+function renderChapter(ch,i){
+  const catColor=CAT_COLORS[ch.cat]||'accent';
+  let html=`<div class="ch-header">
+    <div class="ch-left">
+      <span class="ch-num">${ch.num}</span>
+      <div><div class="ch-title">${ch.title}</div><div class="ch-cat">${ch.cat}</div></div>
+    </div>
+    <button class="done-btn" data-idx="${i}"><span class="icon">○</span> Mark done</button>
+  </div>`;
+  if(ch.summary)html+=`<p style="font-size:14px;color:var(--text2);margin-bottom:16px;line-height:1.6">${ch.summary}</p>`;
+  if(ch.callout)html+=`<div class="callout ${ch.callout.type}"><p>${ch.callout.text}</p></div>`;
+  if(ch.content)html+=ch.content;
+  if(ch.flowItems)html+=renderFlow(ch.flowItems);
+  if(ch.osi)html+=renderOSI();
+  if(ch.accItems)html+=renderAcc(ch.accItems);
+  if(ch.quiz)html+=renderQuiz(ch.quiz,i);
+  html+=renderChNav(i);
+  return html;
+}
+
+function renderFlow(items){
+  let h='<div class="flow-grid">';
+  items.forEach(f=>{
+    const isRight=f.dir==='right', isBoth=f.dir==='both', isSeq=f.dir==='both-seq';
+    const vis=isRight
+      ?`<div class="flow-node">💻</div><div class="flow-line"><div class="flow-arrow ar"></div></div><div class="flow-node">📺</div>`
+      :isBoth
+      ?`<div class="flow-node">📞</div><div style="flex:1;display:flex;flex-direction:column;gap:4px"><div class="flow-line"><div class="flow-arrow ar"></div></div><div class="flow-line"><div class="flow-arrow al"></div></div></div><div class="flow-node">📞</div>`
+      :`<div class="flow-node">📻</div><div class="flow-line"><div class="flow-arrow ar" style="animation-delay:-0.9s"></div></div><div class="flow-node">📻</div>`;
+    h+=`<div class="flow-card"><div class="flow-title">${f.title}</div><div class="flow-vis">${vis}</div><div class="flow-desc">${f.desc}</div></div>`;
+  });
+  return h+'</div>';
+}
+
+function renderOSI(){
+  const labels=["Application","Presentation","Session","Transport","Network","Data Link","Physical"];
+  const tags=["DATA (HTTP / Apps)","DATA (Encryption / Format)","DATA (Connections)","SEGMENTS (TCP/UDP, Ports)","PACKETS (Routers, IP)","FRAMES (Switches, MAC)","BITS (Cables, Wi-Fi)"];
+  let h='<div class="osi-stack">';
+  for(let i=0;i<7;i++){
+    const n=7-i;
+    h+=`<div class="osi-row" style="background:${OSI_COLORS[i]};color:${OSI_TEXT[i]}">
+      <span class="osi-num" style="color:${OSI_TEXT[i]}">${n}</span>
+      <span class="osi-name">${labels[i]}</span>
+      <span class="osi-tag">${tags[i]}</span>
+    </div>`;
+  }
+  return h+'</div>';
+}
+
+function renderAcc(items){
+  let h='<div class="acc">';
+  items.forEach(item=>{
+    h+=`<div class="acc-item"><div class="acc-head"><span><span class="acc-icon">${item.icon}</span>${item.title}</span><em class="acc-arr">›</em></div><div class="acc-body">${item.body}</div></div>`;
+  });
+  return h+'</div>';
+}
+
+function renderQuiz(q,chidx){
+  let opts='';
+  q.opts.forEach((o,i)=>{
+    opts+=`<div class="q-opt" data-c="${i===q.ans?1:0}">${o}</div>`;
+  });
+  return `<div class="qblock" data-chidx="${chidx}">
+    <div class="q-head"><span>⚡</span> Quick Check</div>
+    <div class="q-body">
+      <div class="q-text">${q.q}</div>
+      <div class="q-options">${opts}</div>
+      <div class="q-feedback"></div>
+    </div>
+  </div>`;
+}
+
+function renderChNav(i){
+  const prev=i>0?`<button class="cnav-btn" onclick="scrollToChapter(${i-1})">← ${CHAPTERS[i-1].num} ${CHAPTERS[i-1].title}</button>`:'<span></span>';
+  const next=i<CHAPTERS.length-1?`<button class="cnav-btn primary" onclick="scrollToChapter(${i+1})">${CHAPTERS[i+1].num} ${CHAPTERS[i+1].title} →</button>`:'<span></span>';
+  return `<div class="chapter-nav">${prev}${next}</div>`;
+}
+
+function updateProgress(){
+  const n=done.size,t=CHAPTERS.length;
+  document.getElementById('prog-count').textContent=`${n} / ${t}`;
+  document.getElementById('prog-fill').style.width=`${n/t*100}%`;
+  document.getElementById('stat-done').textContent=n;
+  CHAPTERS.forEach((_,i)=>{
+    const btn=document.querySelector(`.done-btn[data-idx="${i}"]`);
+    if(btn){
+      if(done.has(i)){btn.innerHTML='<span class="icon">✓</span> Done';btn.classList.add('done')}
+      else{btn.innerHTML='<span class="icon">○</span> Mark done';btn.classList.remove('done')}
+    }
+  });
+}
+
+function initSearch(){
+  document.getElementById('search-input').addEventListener('input',function(){
+    const q=this.value.toLowerCase().trim();
+    const chapters=document.querySelectorAll('.chapter');
+    let visible=0;
+    chapters.forEach(ch=>{
+      const match=!q||ch.dataset.search.includes(q);
+      ch.style.display=match?'':'none';
+      if(match)visible++;
+    });
+    document.getElementById('no-results').style.display=visible?'none':'block';
+  });
+}
+
+function initIntersection(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const idx=+e.target.id.replace('chapter-','');
+        document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+        const nav=document.getElementById('nav-'+idx);
+        if(nav){nav.classList.add('active');nav.scrollIntoView({block:'nearest'})}
+      }
+    });
+  },{threshold:0.2});
+  document.querySelectorAll('.chapter').forEach(c=>obs.observe(c));
+}
+
+buildNav();
+buildChapters();
+initSearch();
+updateProgress();
+</script>
